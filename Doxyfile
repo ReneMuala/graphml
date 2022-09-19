@@ -1,0 +1,10 @@
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "graphml"
+PROJECT_BRIEF          = "A free and open source graphics generator."
+OUTPUT_LANGUAGE        = English
+OUTPUT_DIRECTORY       = ./doc/
+# EXCLUDE = ./third_party/include/doctest.h
+RECURSIVE = YES
+EXTRACT_ALL = YES
+EXTRACT_PRIVATE = YES
+GENERATE_LATEX = NO
