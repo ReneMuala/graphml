@@ -21,7 +21,7 @@ int main(){
     // "add(2,mul(add(9,90),div(5,mul(0,9))))"
     // );
 
-    gisl::evaluateExpression(R"((x<=1),(x),(x<=+((x),2)),(x),)");
+    gisl::evaluateExpression(R"(set(w,200)get(w),div(get(w),2))");
     for(auto val : vec){
         std::cout << val << "\t";
     }
