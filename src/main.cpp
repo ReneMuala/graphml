@@ -15,14 +15,16 @@ int main(){
     */
 
 //    std::cout << gisl::evaluateAtomicLogicExpression("not(0,9)") << std::endl;
-
     auto vec = 
     // gisl::evaluateExpression(
     // "add(2,mul(add(9,90),div(5,mul(0,9))))"
     // );
 
-    gisl::evaluateExpression(R"(set(w,200)get(w),div(get(w),2))");
+    gisl::evaluateExpression(R"(
+[8]{*((@rand),100)}
+    )");
     for(auto val : vec){
         std::cout << val << "\t";
     }
+
 }

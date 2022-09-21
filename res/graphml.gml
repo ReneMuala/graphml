@@ -2,7 +2,7 @@
     Author: Rene Descartes Muala
  -->
 <graphml version="latest" engine="cairo">
-    <gradient id="grad" type="linear" begin="relative(0,0)" end="relative(1,1)">
+    <gradient id="grad" type="linear" begin="0,0" end="1,1">
         <colorstop step="0.0" color="#f00" />
         <colorstop step="div(1,2)" color="#0f0" />
         <colorstop step="1.0" color="#00f" />
@@ -12,10 +12,8 @@
 
     <!-- <pattern id="id"> </pattern> -->
 
-    <img w="mul(add(100,200),2)" h="400">
-        <fill colo="rgb(0,0,0)" />
-        <rect x="100" y="100" w="50" h="50">
-            <fill color="#ff0" />
+    <img w="set(w,8900)(w)" h="set(h,900)(h)">
+        <rect w="div(get(w),2)" h="div(get(h),2)">
         </rect>
     </img>
 

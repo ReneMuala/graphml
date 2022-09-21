@@ -16,3 +16,11 @@ bool operator==(char target, std::string set){
         }
     } return false;
 }
+
+std::string operator*(int size, std::string src){
+    std::string dest;
+    for (size_t i = 0; i < size; i++)
+    {
+        dest+=src;
+    } return dest;
+}

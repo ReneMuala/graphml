@@ -21,10 +21,6 @@ class CairoInterpreter001: public CairoInterpreter {
     
     CairoInterpreter001(Parser & parser);
 
-    
-
-    virtual double parseNumericExpression(std::string) override;
-
     virtual void main() override;
     virtual void handleGradient() override;
     virtual void handleLinearGradient() override {}
