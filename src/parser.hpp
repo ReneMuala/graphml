@@ -40,6 +40,12 @@ public:
     std::string engine = "cairo";
 
     /**
+     * @brief coordinates mode.
+     * may be "relative" for values in [0;1]
+     * or "pixel" for pixel values.
+     */
+    std::string mode = "pixel";
+    /**
      * @brief Construct a new Parser object
      * 
      * @param filename the filename of the document
@@ -70,9 +76,10 @@ public:
      * @param elementLine the node line
      * @param attributeName the attribute name 
      * @param attributeSet an attribute set
+     * @param optional to avoid errors when the attribute is not found
      * @return std::string the required value
      */
-    std::string getRequiredAttribute(std::string elementName, long elementLine, std::string attributeName, std::unordered_map<std::string, std::string> attributeSet);
+    std::string getRequiredAttribute(std::string elementName, long elementLine, std::string attributeName, std::unordered_map<std::string, std::string> attributeSet, bool optional = false);
     
     /**
      * @brief returns the name of the @a node

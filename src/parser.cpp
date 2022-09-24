@@ -33,12 +33,13 @@ std::unordered_map<std::string, std::string> Parser::getXmlNodeAttributes(){
 }
 
 
-std::string Parser::getRequiredAttribute(std::string elementName, long elementLine, std::string attributeName, std::unordered_map<std::string, std::string> attributeSet){
+std::string Parser::getRequiredAttribute(std::string elementName, long elementLine, std::string attributeName, std::unordered_map<std::string, std::string> attributeSet, bool optional){
     for (auto [key, value] : attributeSet){
         if(key == attributeName){
             return value;
         }
-    } gmlWarn(__FUNCTION__,__FILE__, __LINE__, ("Unable to get required attribute " + std::string(attributeName) + " for element: " + std::string(elementName) + ":" + std::to_string(elementLine)).c_str());
+    } 
+    gmlCheck(optional, gmlWarn,__FUNCTION__,__FILE__, __LINE__, ("Unable to get required attribute " + std::string(attributeName) + " for element: " + std::string(elementName) + " graphml line:" + std::to_string(elementLine)).c_str());
     return "";
 }
 
@@ -105,15 +106,23 @@ void Parser::getNodeLink(NodeLink nodeLink){
 
 void Parser::readGraphmlInfo(){
     const static std::vector<std::string> supportedEngines = {"cairo", "default"};
+    const static std::vector<std::string> supportedModes = {"relative", "pixel"};
     const static std::vector<std::string> supportedVersions = {"0.0.1", "latest"};
 
     auto info = getXmlNodeAttributes(document, cur);
     for(auto [key, value] : info){
+
         if(key == "version"){
             if(value == supportedVersions){
                 version = value;
             } else {
                 gmlWarn(__FUNCTION__,__FILE__, __LINE__, "unsupported version, \"latest\" will be used.");
+            }
+        } else if(key == "mode"){
+            if(value == supportedModes){
+                engine = value;
+            } else {
+                gmlWarn(__FUNCTION__,__FILE__, __LINE__, "unsupported mode, \"pixel\" will be used.");
             }
         } else if(key == "engine"){
             if(value == supportedEngines){

@@ -31,8 +31,8 @@ compileCairoInterpreter001:
 link:linkMain
 
 onlyMain:
-	g++ -std=c++17 ./src/main.cpp -lxml2 build/*.o -o build/main
+	g++ -std=c++17 ./src/main.cpp -lxml2 -lcairo build/*.o -o build/main
 
 linkMain:
-	$(linker) $(buildDir)/*.o -lxml2 -o $(buildDir)/main
+	$(linker) $(buildDir)/*.o -lxml2 -lcairo  -o $(buildDir)/main
 
