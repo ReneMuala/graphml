@@ -23,9 +23,12 @@
             <fill color="rgb(0,0,0)" />
             <stroke color="#fff" width="1" />
         </rect>
-        <circle center="200,200" radius="100">
-            <fill gradient="grad" deg="90" />
+        <circle center="0.5,0.5" radius="0.1">
+            <fill gradient="grad" />
         </circle>
+        <arc center="0.5,0.5" radius="0.1" begin="0.0" end="mul(2,(@pi))">
+            <fill color="0,1,1" />
+        </arc>
         <text x="300" y="400" value="Ola mundo" font="myFont">
             <fill color="rgb(0,32,120)" />
         </text>

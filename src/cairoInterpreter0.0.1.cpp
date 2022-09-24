@@ -16,13 +16,26 @@ bool getVerifiedSingleRelativeValue(std::string valueName, double & value,  std:
         statusOk = false;
     } else {
         if (valueSet[0] < 0 || valueSet[0] > 1) {
-            gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> incorrect value for "+valueName+" argument, the value must to be in [0,1]. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
-            statusOk = false;
+            gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> value for "+valueName+" argument, is not in [0,1]. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
         } 
         value = valueSet[0];
     }
     
     return statusOk;
+}
+
+bool verifyArcCenter(std::vector<double> center, Parser & parser){
+    if(center.size() != 2){
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, (
+            std::string("\n--> incorrect number of arc:center arguments, expected 2 \"x,y\"") + std::string(" at line: ") + std::to_string( parser.getXmlNodeLine())
+            ).c_str());
+        return false;
+    } for(auto & value : center){
+        if(value < 0 || value > 1){
+            gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> value for arc:center argument, is not in [0,1]. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
+        }
+    }
+    return true;
 }
 
 bool verifyBeginArgNum(int argNum,  CairoInterpreter001::GradientType type, Parser & parser){
@@ -38,7 +51,7 @@ bool verifyEndArgNum(int argNum,  CairoInterpreter001::GradientType type, Parser
     if(argNum != expectedArgNum){
         gmlWarn(__FUNCTION__,__FILE__, __LINE__, (std::string("\n--> incorrect number of end arguments, expected") + ((argNum == 2)?" 2 \"w,h\"" : " 3 \"x1,y1,r1\"") + std::string(" at line: ") + std::to_string( parser.getXmlNodeLine())).c_str());
         return false;
-    }return true;
+    } return true;
 }
 
 bool verifyColorStopStep(std::vector<double> colorStopStep,  Parser & parser){
@@ -51,8 +64,7 @@ bool verifyColorStopStep(std::vector<double> colorStopStep,  Parser & parser){
             gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> incorrect value for colorStop:Step arguments, the value must to be in [0,1] line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
             statusOk =  false;
         }    
-    }
-    return statusOk;
+    } return statusOk;
 }
 
 bool verifyColor(std::vector<double> color,  Parser & parser){
@@ -97,14 +109,18 @@ void CairoInterpreter001::addImage(std::string id, std::pair<cairo_t *, cairo_su
 void CairoInterpreter001::imageMain(cairo_t * cr){
      while(parser.nodeHasLink(Parser::NodeLink::NEXT)){
         // std::cout << parser.getXmlNodeName() << std::endl;
+        
         if(!strcasecmp(parser.getXmlNodeName().c_str(), "rect")){
             handleImageRect(cr);
-        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "fill")){
+        }  else if(!strcasecmp(parser.getXmlNodeName().c_str(), "arc")){
+            handleImageArc(cr);
+        }  else if(!strcasecmp(parser.getXmlNodeName().c_str(), "fill")){
             handleImageFill(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "stroke")){
+            handleImageStroke(cr);
         }  else if(!strcasecmp(parser.getXmlNodeName().c_str(), "export")){
             handleImageExport(cr);
-        }
-         parser.getNodeLink(Parser::NodeLink::NEXT);
+        } parser.getNodeLink(Parser::NodeLink::NEXT);
     }
 }
 
@@ -137,6 +153,38 @@ void CairoInterpreter001::handleImageRect(cairo_t * cr){
     }
 }
 
+void CairoInterpreter001::handleImageArc(cairo_t * cr){
+    bool statusOk = true;
+    double radius,begin,end;
+    std::vector<double> center, valueSet; 
+    auto attributeSet = parser.getXmlNodeAttributes();
+
+    center = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "center", attributeSet));
+    statusOk = (verifyArcCenter(center, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "radius", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("img:arc:radius", radius, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "begin", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("img:arc:begin", begin, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "end", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("img:arc:end", end, valueSet, parser)) ? statusOk : false;
+
+    if(statusOk){
+        cairo_arc(cr, center[0], center[1], radius, begin, end);
+        cairo_push_group(cr);
+        if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
+            parser.getNodeLink(Parser::NodeLink::CHILDREN);
+            imageMain(cr);
+            parser.getNodeLink(Parser::NodeLink::PARENT);
+        } 
+        cairo_pop_group_to_source(cr);
+        cairo_arc(cr, center[0], center[1], radius, begin, end);
+        cairo_fill(cr);
+    }
+}
+
 void CairoInterpreter001::handleImageFill(cairo_t * cr){
     auto attributeSet = parser.getXmlNodeAttributes();
     std::string gradientId = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "gradient", attributeSet, true);
@@ -155,13 +203,43 @@ void CairoInterpreter001::handleImageFill(cairo_t * cr){
 
     std::string mode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "mode", attributeSet, true);
 
-
     if (!strcmp(mode.c_str(), "normal") || mode.empty()){
         cairo_fill(cr);
     } else if (!strcmp(mode.c_str(), "preserve")){
         cairo_fill_preserve(cr);
     } else {
         gmlWarn(__FUNCTION__, __FILE__, __LINE__, ("\n--> unknown fill:mode \"" + mode + "\" expected \"normal\" or \"preserve\". graphml line: " + std::to_string(parser.getXmlNodeLine())).c_str());
+    }
+}
+
+void CairoInterpreter001::handleImageStroke(cairo_t * cr){
+    auto attributeSet = parser.getXmlNodeAttributes();
+    std::string gradientId = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "gradient", attributeSet, true);
+    double width = 1;
+    std::vector<double> valueSet;
+
+    if(gradientId.empty()){
+        std::vector<double> color = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "color", attributeSet));
+        if(verifyColor(color,parser)){
+            cairo_set_source_rgba(cr, color[0], color[1], color[2], color.size() == 3 ? 1.0 : color[3]);
+        }
+    } else {
+        cairo_pattern_t * gradient;
+        if((gradient = getGradientById(gradientId))){
+            cairo_set_source(cr, gradient);
+        }
+    }
+
+    std::string mode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "mode", attributeSet, true);
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "width", attributeSet));
+    getVerifiedSingleRelativeValue("stroke::width",width, valueSet, parser);
+    cairo_set_line_width(cr, width);
+    if (!strcmp(mode.c_str(), "normal") || mode.empty()){
+        cairo_stroke(cr);
+    } else if (!strcmp(mode.c_str(), "preserve")){
+        cairo_stroke_preserve(cr);
+    } else {
+        gmlWarn(__FUNCTION__, __FILE__, __LINE__, ("\n--> unknown stroke:mode \"" + mode + "\" expected \"normal\" or \"preserve\". graphml line: " + std::to_string(parser.getXmlNodeLine())).c_str());
     }
 }
 
@@ -174,7 +252,6 @@ void CairoInterpreter001::handleImageExport(cairo_t * cr){
         cairo_surface_write_to_png(cairo_get_target(cr), filename.c_str());
     }
 }
-
 
 void CairoInterpreter001::main() {
     while(parser.nodeHasLink(Parser::NodeLink::NEXT)){

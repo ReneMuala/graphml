@@ -33,7 +33,9 @@ class CairoInterpreter001: public CairoInterpreter {
     void addImage(std::string id, std::pair<cairo_t *, cairo_surface_t *> image);
     void imageMain(cairo_t * cr);
     void handleImageRect(cairo_t * cr);
+    void handleImageArc(cairo_t * cr);
     void handleImageFill(cairo_t * cr);
+    void handleImageStroke(cairo_t * cr);
     void handleImageExport(cairo_t * cr);
     virtual void main() override;
     virtual void handleGradient() override;
