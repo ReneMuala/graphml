@@ -53,6 +53,11 @@ public:
     Parser(const std::string filename);
 
     /**
+     * @brief Destroys a Parser
+     */
+    ~Parser();
+
+    /**
      * @brief returns an unordered map containing of the Xml Node Attributes
      * 
      * @param node the node to read 

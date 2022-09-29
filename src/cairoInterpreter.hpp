@@ -23,9 +23,7 @@ class CairoInterpreter {
     virtual void main() = 0;
     virtual void handleGradient() = 0;
     virtual void handlePattern() = 0;
+    virtual void handlePath() = 0;
     virtual void handleImage() = 0;
     virtual void handleFont() = 0;
-    
-    virtual void pushGroup() = 0;
-    virtual void pushPop() = 0;
 };

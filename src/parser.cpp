@@ -16,6 +16,12 @@ Parser::Parser(const std::string filename){
     }, this);
 }
 
+Parser::~Parser(){
+    if(document){
+        xmlFreeDoc(document);
+    }
+}
+
 std::unordered_map<std::string, std::string> Parser::getXmlNodeAttributes(xmlDoc * document, xmlNode * node){
     std::unordered_map<std::string, std::string> umap;
 

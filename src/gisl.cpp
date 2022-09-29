@@ -73,7 +73,6 @@ double gisl::evaluateAtomicArithmeticExpression(std::string expression){
     static const std::regex divRegex = std::regex("\\s*(div|/)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?){2,}\\)", std::regex::icase);
     static const std::regex powRegex = std::regex("\\s*(pow|\\*\\*)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?){2,}\\)", std::regex::icase);
     static const std::regex modRegex = std::regex("\\s*(mod|\\%)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?){2,}\\)", std::regex::icase);
-
     double result = 0;
 
     auto numberSet = getSet(expression);
@@ -111,6 +110,20 @@ double gisl::evaluateAtomicArithmeticExpression(std::string expression){
         gmlWarn(__FUNCTION__,__FILE__,__LINE__, (std::string("Unknown arithmetic operation: ")+expression).c_str());    
     } return result;
 }
+
+std::string gisl::evaluateAtomicColorExpression(std::string expression){
+    // static const std::regex rgbRegex = std::regex("\\s*(rgb)\\s*\\((\\s*\\d+(\\.\\d+?)?\\s*,?){3}\\)", std::regex::icase);
+    // static const std::regex rgbaRegex = std::regex("\\s*(rgba)\\s*\\((\\s*\\d+(\\.\\d+?)?\\s*,?){4}\\)", std::regex::icase);
+
+    auto numberSet = getSet(expression);
+
+    std::string colorComponents;
+
+    for(auto && number : numberSet){
+        colorComponents +=  std::to_string(number/255.0) + " ";
+    } return colorComponents;
+}
+
 
 bool gisl::evaluateAtomicLogicExpression(std::string expression){
     static const std::regex andRegex = std::regex("\\s*(and|&)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?){2,}\\)", std::regex::icase);
@@ -163,6 +176,8 @@ double gisl::evaluateAtomicLibMathExpression(std::string expression){
 
     static const std::regex negRegex = std::regex("\\s*(neg|-)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?)\\)", std::regex::icase);
 
+    static const std::regex percentRegex = std::regex("\\s*(\\s*\\d+(\\.\\d+?)?\\s*,?)\\%", std::regex::icase);
+
     const auto numberSet = getSet(expression, 1);
 
     double result = 0;
@@ -198,6 +213,8 @@ double gisl::evaluateAtomicLibMathExpression(std::string expression){
         result = numberSet[0] / (M_PI/180.0);
     } else if(std::regex_match(expression, negRegex)){
         result = -numberSet[0];
+    } else if(std::regex_match(expression, percentRegex)){
+        result = numberSet[0]/100.0;
     } else {
         gmlWarn(__FUNCTION__,__FILE__,__LINE__, (std::string("Unknown libMath operation: ")+expression).c_str());    
     } return result;
@@ -250,21 +267,34 @@ std::vector<double> gisl::evaluateExpression(std::string expression){
     static const std::regex arithExprRegex = std::regex("\\s*(add|sum|mod|\\%|pow|\\+|sub|-|mul|\\*|\\*\\*|div|/)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?){2,}\\)",std::regex::icase);
     static const std::regex logicExprRegex = std::regex("\\s*((and|&|or|\\||xor|\\^)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?){2,}\\))|((not|\\~|\\!)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?){1}\\))",
     std::regex::icase);
-    static const std::regex libMathExprRegex = std::regex("\\s*(abs|sin|asin|cos|acos|tan|tanh|atan|cosh|ceil|floor|neg|-|exp|sqrt|rad|deg)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?)\\)", std::regex::icase);
-    std::string targetStr;
+    static const std::regex libMathExprRegex = std::regex("(\\s*(abs|sin|asin|cos|acos|tan|tanh|atan|cosh|ceil|floor|neg|-|exp|sqrt|rad|deg)\\s*\\((\\s*-?\\d+(\\.\\d+?)?\\s*,?)\\)|\\s*(\\s*\\d+(\\.\\d+?)?\\s*,?)\\%)", std::regex::icase);
+    static const std::regex colorExprRegex = std::regex("(\\s*(rgb)\\s*\\((\\s*\\d+(\\.\\d+?)?\\s*,?){3}\\)|\\s*(rgba)\\s*\\((\\s*\\d+(\\.\\d+?)?\\s*,?){4}\\))");
+    static const std::regex percentRegex = std::regex("\\s*(\\s*\\d+(\\.\\d+?)?\\s*,?)\\%"); 
+    std::string targetStr, targetResulStr;
     double targetResult;
     std::regex targetRegex;
     std::smatch atomicExpression, extraAtomicExpressions[3];
     bool previousMatch = false, unhandledLoop = false;
     InstructionType instructionType = None;
+    std::regex_constants::match_flag_type replace_flag;
     while(true){
-        if(std::regex_search(expression, atomicExpression,arithExprRegex)){
+        replace_flag = std::regex_constants::match_default;
+        if(std::regex_search(expression, atomicExpression,libMathExprRegex)){
+            instructionType = LibMath;
+            // std::cout << "LibMath: " << atomicExpression.str() << std::endl;
+            if(std::regex_match(atomicExpression.str(), percentRegex)){
+                replace_flag = std::regex_constants::format_first_only;
+            }
+        } else if(std::regex_search(expression, atomicExpression,arithExprRegex)){
             instructionType = Arithmetic;
+            // std::cout << "Arithmetic: " << atomicExpression.str() << std::endl;
+        } else if(std::regex_search(expression, atomicExpression,colorExprRegex)){
+            instructionType = Color;
+            // std::cout << "Color: " << atomicExpression.str() << std::endl;
         } else if(std::regex_search(expression, atomicExpression,logicExprRegex)){
             instructionType = Logic;
-        } else if(std::regex_search(expression, atomicExpression,libMathExprRegex)){
-            instructionType = LibMath;
-        }  else if (std::regex_search(expression,setRegex) || std::regex_search(expression,getRegex) || std::regex_search(expression,gisl::loopRegex)){
+            // std::cout << "Logic: " << atomicExpression.str() << std::endl;
+        } else if (std::regex_search(expression,setRegex) || std::regex_search(expression,getRegex) || std::regex_search(expression,gisl::loopRegex)){
             if(std::regex_search(expression, atomicExpression, gisl::setRegex)){
                 instructionType = Set;
                 previousMatch = true;
@@ -308,7 +338,10 @@ std::vector<double> gisl::evaluateExpression(std::string expression){
                     targetResult = evaluateAtomicLibMathExpression(targetStr);
                     break;
                 default: break;
-                }  expression = std::regex_replace(expression, targetRegex, " "+std::to_string(targetResult)+" ");
+                }  expression = std::regex_replace(expression, targetRegex, " "+std::to_string(targetResult)+" ",replace_flag);
+            } else if(instructionType == Color){
+                targetResulStr = evaluateAtomicColorExpression(targetStr);
+                expression = std::regex_replace(expression, targetRegex," "+targetResulStr+" ",std::regex_constants::format_first_only);
             } else if(instructionType == Set){
                 evaluateSet(targetStr);
                 expression = std::regex_replace(expression, targetRegex,"",std::regex_constants::format_first_only);

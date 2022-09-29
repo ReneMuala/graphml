@@ -43,6 +43,8 @@ namespace gisl {
          */
         Get,
 
+        Color,
+
         None,
     };
     void init();
@@ -60,13 +62,24 @@ namespace gisl {
     /**
      * @brief evaluates a single arithmetic expression.
      * 
-     * Supported operations: add, sub, mul, div.
+     * Supported operations: add, sub, mul, div, N%.
      * 
      * @param expression the expression to be analyzed.
      * @return double
      * 
      */
     double evaluateAtomicArithmeticExpression(std::string expression);
+
+    /**
+     * @brief evaluates a single color expression.
+     * 
+     * Supported operations: rgb, rgba.
+     * 
+     * @param expression the expression to be analyzed.
+     * @return std::string rrr, ggg, bbb, aaa
+     * 
+     */
+    std::string evaluateAtomicColorExpression(std::string expression);
 
     /**
      * @brief evaluates a single logic expression.

@@ -5,36 +5,41 @@
 #include "operators.hpp"
 #include "gisl.hpp"
 #include "error.hpp"
+#include <optional>
 
 static const std::regex gradientRegex = std::regex("(gradient)|(grad)", std::regex::icase);
 
-bool getVerifiedSingleRelativeValue(std::string valueName, double & value,  std::vector<double> valueSet, Parser & parser){
+bool getVerifiedSingleRelativeValue(std::string valueName, double & value,  std::vector<double> valueSet, Parser & parser, bool checkValue = true){
     bool statusOk = true;
-
     if (valueSet.size() != 1) {
         gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> incorrect number of "+valueName+" arguments, expected 1. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
         statusOk = false;
-    } else {
-        if (valueSet[0] < 0 || valueSet[0] > 1) {
+    } else  {
+        if (checkValue && (valueSet[0] < 0 || valueSet[0] > 1)) {
             gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> value for "+valueName+" argument, is not in [0,1]. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
-        } 
-        value = valueSet[0];
+        }  value = valueSet[0];
     }
-    
     return statusOk;
 }
 
-bool verifyArcCenter(std::vector<double> center, Parser & parser){
-    if(center.size() != 2){
+bool verifyPathMode(std::string mode, Parser& parser){
+    if(strcasecmp(mode.c_str(), "normal") && strcasecmp(mode.c_str(), "relative")){
+        gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> incorrect value for path:mode argument, expected normal or relative. line: ") + std::to_string(parser.getXmlNodeLine())).c_str()); return false;
+    } return true;
+}
+
+bool getVerifiedSingleRelativePoint(std::string pointName, std::vector<double> & point, std::vector<double> valueSet, Parser & parser){
+    if(valueSet.size() != 2){
         gmlWarn(__FUNCTION__,__FILE__, __LINE__, (
-            std::string("\n--> incorrect number of arc:center arguments, expected 2 \"x,y\"") + std::string(" at line: ") + std::to_string( parser.getXmlNodeLine())
+            std::string("\n--> incorrect number of ")+pointName+std::string(" arguments, expected 2 \"x,y\"") + std::string(" at line: ") + std::to_string( parser.getXmlNodeLine())
             ).c_str());
         return false;
-    } for(auto & value : center){
+    } for(auto & value : valueSet){
         if(value < 0 || value > 1){
             gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> value for arc:center argument, is not in [0,1]. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
         }
     }
+    point = valueSet;
     return true;
 }
 
@@ -80,7 +85,17 @@ bool verifyColor(std::vector<double> color,  Parser & parser){
     } return statusOk;
 }
 
-CairoInterpreter001::CairoInterpreter001(Parser & parser): CairoInterpreter(parser){}
+CairoInterpreter001::CairoInterpreter001(Parser & parser): CairoInterpreter(parser),embeddedApplyStackSize(0),current_device_width(0), current_device_height(0){}
+
+CairoInterpreter001::~CairoInterpreter001(){
+    for(auto && [id, imagePair] : images){
+        if(imagePair.first)cairo_destroy(imagePair.first);
+        if(imagePair.second)cairo_surface_destroy(imagePair.second);
+    }
+    for(auto && [id, gradient] : gradients){
+        if(gradient)cairo_pattern_destroy(gradient);
+    }
+}
 
 void CairoInterpreter001::addGradient(std::string id, cairo_pattern_t * gradient){
     if(gradients.count(id)){
@@ -93,9 +108,18 @@ cairo_pattern_t * CairoInterpreter001::getGradientById(std::string id){
     if(gradients.count(id)){
         return gradients[id];
     } else {
-        gmlWarn(__FUNCTION__,__FILE__, __LINE__, ("\nunable to a gradient with the id \"" + id + "\".").c_str());
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, ("\n--> unable to get gradient with id \"" + id + "\".").c_str());
     } return NULL;
 }
+
+std::pair<cairo_t *, cairo_surface_t *>* CairoInterpreter001::getImageByid(std::string id){
+    if(images.count(id)){
+        return &images[id];
+    } else {
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, ("\n-->unable to get a image with id \"" + id + "\".").c_str());
+    } return NULL;
+}
+
 
 void CairoInterpreter001::addImage(std::string id, std::pair<cairo_t *, cairo_surface_t *> image){
     if(images.count(id)){
@@ -106,40 +130,402 @@ void CairoInterpreter001::addImage(std::string id, std::pair<cairo_t *, cairo_su
     } images[id] = image;
 }
 
-void CairoInterpreter001::imageMain(cairo_t * cr){
-     while(parser.nodeHasLink(Parser::NodeLink::NEXT)){
-        // std::cout << parser.getXmlNodeName() << std::endl;
-        
-        if(!strcasecmp(parser.getXmlNodeName().c_str(), "rect")){
-            handleImageRect(cr);
-        }  else if(!strcasecmp(parser.getXmlNodeName().c_str(), "arc")){
-            handleImageArc(cr);
-        }  else if(!strcasecmp(parser.getXmlNodeName().c_str(), "fill")){
-            handleImageFill(cr);
-        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "stroke")){
-            handleImageStroke(cr);
-        }  else if(!strcasecmp(parser.getXmlNodeName().c_str(), "export")){
-            handleImageExport(cr);
-        } parser.getNodeLink(Parser::NodeLink::NEXT);
+void CairoInterpreter001::addPath(std::string id, xmlNode* node){
+    if(paths.count(id)){
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, ("\n--> repeated path id \"" + id + "\", att: the old instance will be deleted.").c_str());
+    } paths[id] = node;
+}
+
+void CairoInterpreter001::applyMove(cairo_t * cr){
+    auto attributeSet = parser.getXmlNodeAttributes();
+    double x, y;
+    std::string mode;
+    bool statusOk = true;
+
+    std::vector<double> valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "x", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("move:x",x, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "y", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("move:y",y, valueSet, parser)) ? statusOk : false;
+
+    mode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "mode", attributeSet, true);
+    mode = (mode.empty()) ? "normal" : mode;
+    if(statusOk && verifyPathMode(mode, parser)){
+        if(!strcasecmp(mode.c_str(), "normal")){
+            cairo_move_to(cr, x, y);
+        } else {
+            cairo_rel_move_to(cr, x, y);
+        }
     }
 }
 
-void CairoInterpreter001::handleImageRect(cairo_t * cr){
+bool CairoInterpreter001::getTextData(double & x, double & y, double & size, cairo_font_slant_t & slant, cairo_font_weight_t & weight, std::string & value, std::string & font){
     bool statusOk = true;
-    double x,y,w,h;
+    std::vector<double> valueSet; 
+    auto attributeSet = parser.getXmlNodeAttributes();
+    std::string slantStr, weightStr;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "x", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("text:x", x, valueSet, parser)) ? statusOk : false;
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "y", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("text:y", y, valueSet, parser)) ? statusOk  : false;
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "size", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("text:size", size, valueSet, parser)) ? statusOk  : false;
+    
+    slantStr = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "slant", attributeSet, true);
+    slantStr = (slantStr.empty()) ? "normal" : slantStr;
+
+    weightStr = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "weight", attributeSet, true);
+    weightStr = (weightStr.empty()) ? "normal" : weightStr;
+
+    if(!strcasecmp(slantStr.c_str(), "normal")){
+        slant = CAIRO_FONT_SLANT_NORMAL;
+    } else if(!strcasecmp(slantStr.c_str(), "oblique")){
+        slant = CAIRO_FONT_SLANT_OBLIQUE;
+    } else if(!strcasecmp(slantStr.c_str(), "italic")){
+        slant = CAIRO_FONT_SLANT_ITALIC;
+    } else {
+        gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> unknown value for text:slant argument, expected normal, oblique or italic. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
+        statusOk = false;
+    }
+
+    if(!strcasecmp(weightStr.c_str(), "normal")){
+        weight = CAIRO_FONT_WEIGHT_NORMAL;
+    } else if(!strcasecmp(weightStr.c_str(), "bold")){
+        weight = CAIRO_FONT_WEIGHT_BOLD;
+    } else {
+        gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> unknown value for text:weight argument, expected normal or bold. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
+        statusOk = false;
+    }
+
+    value = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "value", attributeSet);
+    if(value.empty()){
+        gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> value for text:value argument, not provided. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
+        statusOk = false;
+    }
+
+    font = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "font", attributeSet);
+    if(font.empty()){
+        gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> value for text:font argument, not provided. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
+        statusOk = false;
+    }
+
+    return statusOk;
+}
+
+bool CairoInterpreter001::getRectCoords(double & x, double & y, double &  w, double  & h){
+    bool statusOk = true;
     std::vector<double> valueSet; 
     auto attributeSet = parser.getXmlNodeAttributes();
 
     valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "x", attributeSet));
-    statusOk = (getVerifiedSingleRelativeValue("img:rect:x", x, valueSet, parser)) ? statusOk : false;
+    statusOk = (getVerifiedSingleRelativeValue("rect:x", x, valueSet, parser)) ? statusOk : false;
     valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "y", attributeSet));
-    statusOk = (getVerifiedSingleRelativeValue("img:rect:y", y, valueSet, parser)) ? statusOk  : false;
+    statusOk = (getVerifiedSingleRelativeValue("rect:y", y, valueSet, parser)) ? statusOk  : false;
     valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "w", attributeSet));
-    statusOk = (getVerifiedSingleRelativeValue("img:rect:w", w, valueSet, parser)) ? statusOk  : false;
+    statusOk = (getVerifiedSingleRelativeValue("rect:w", w, valueSet, parser)) ? statusOk  : false;
     valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "h", attributeSet));
-    statusOk = (getVerifiedSingleRelativeValue("img:rect:h", h, valueSet, parser)) ? statusOk  : false;
+    statusOk = (getVerifiedSingleRelativeValue("rect:h", h, valueSet, parser)) ? statusOk  : false;
+    return statusOk;
+}
+
+
+bool CairoInterpreter001::getArcCoords(std::vector<double>  & center, double & radius, double  & begin, double & end){
+    bool statusOk = true;
+    auto attributeSet = parser.getXmlNodeAttributes();
+
+    auto valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "center", attributeSet));
+    statusOk = (getVerifiedSingleRelativePoint("img:arc:center", center, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "radius", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("img:arc:radius", radius, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "begin", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("img:arc:begin", begin, valueSet, parser, false)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "end", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("img:arc:end", end, valueSet, parser, false)) ? statusOk : false;
+    return statusOk;
+}
+
+void CairoInterpreter001::applyClose(cairo_t * cr){
+    cairo_close_path(cr);
+}
+
+void CairoInterpreter001::applyCurve(cairo_t * cr){
+    auto attributeSet = parser.getXmlNodeAttributes();
+    std::vector<double> begin, middle, end;
+    std::string mode;
+    bool statusOk = true;
+
+    std::vector<double> valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "begin", attributeSet));
+    statusOk = (getVerifiedSingleRelativePoint("curve:begin",begin, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "middle", attributeSet));
+    statusOk = (getVerifiedSingleRelativePoint("curve:middle",middle, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "end", attributeSet));
+    statusOk = (getVerifiedSingleRelativePoint("curve:end",end, valueSet, parser)) ? statusOk : false;
+
+    mode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "mode", attributeSet, true);
+    mode = (mode.empty()) ? "normal" : mode;
+
+    if(statusOk && verifyPathMode(mode, parser)){
+        if(!strcasecmp(mode.c_str(), "normal")){
+            cairo_curve_to(cr, begin[0], begin[1], middle[0], middle[1], end[0], end[1]);
+        } else {
+            cairo_rel_curve_to(cr, begin[0], begin[1], middle[0], middle[1], end[0], end[1]);
+        }
+    }
+}
+
+void CairoInterpreter001::applyLine(cairo_t * cr){
+    auto attributeSet = parser.getXmlNodeAttributes();
+    double x, y;
+    std::string mode;
+    bool statusOk = true;
+
+    std::vector<double> valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "x", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("line:x",x, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "y", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("line:y",y, valueSet, parser)) ? statusOk : false;
+
+    mode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "mode", attributeSet, true);
+    mode = (mode.empty()) ? "normal" : mode;
+
+    if(statusOk && verifyPathMode(mode, parser)){
+        if(!strcasecmp(mode.c_str(), "normal")){
+            cairo_line_to(cr, x, y);
+        } else {
+            cairo_rel_line_to(cr, x, y);
+        }
+    }
+}
+
+void CairoInterpreter001::applyRect(cairo_t * cr){
+    double x,y,w,h;
+    if(getRectCoords(x,y,w,h)) cairo_rectangle(cr,x,y,w,h);
+}
+
+void CairoInterpreter001::applyArc(cairo_t * cr){
+    double radius,begin,end;
+    std::vector<double> center;
+    if(getArcCoords(center,radius, begin,end)) cairo_arc(cr, center[0], center[1], radius, begin, end);
+}
+
+void CairoInterpreter001::applyMain(cairo_t * cr, xmlNode* cur){
+    std::vector<double> valueSet, args;
+    xmlNode* curAux = parser.cur;
+    parser.cur = cur;
+    if(parser.nodeHasLink(Parser::CHILDREN)){
+        parser.getNodeLink(Parser::CHILDREN);
+        while(parser.nodeHasLink(Parser::NEXT)){
+            parser.getNodeLink(Parser::NEXT);
+            if(!strcasecmp(parser.getXmlNodeName().c_str(), "move")){
+                applyMove(cr);
+            } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "line")){
+                applyLine(cr);
+            } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "curve")){
+                applyCurve(cr);
+            } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "rect")){
+                applyRect(cr);
+            } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "arc")){
+                applyArc(cr);
+            } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "close")){
+                applyClose(cr);
+            } 
+        } parser.getNodeLink(Parser::PARENT);
+    }
+    parser.cur = curAux;
+}
+
+bool CairoInterpreter001::strokeSetLineCap(cairo_t * cr, cairo_line_cap_t & cap, std::unordered_map<std::__1::string, std::__1::string> &attributeSet){
+    bool statusOk = true;
+    std::string capMode;
+    static const std::regex supportedCapModes = std::regex("(|BUTT|ROUND|SQUARE)", std::regex::icase);
+
+    capMode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "cap", attributeSet, true);
+
+    statusOk = (std::regex_match(capMode, supportedCapModes)) ? statusOk : false;
 
     if(statusOk){
+        if(!capMode.empty()) {
+            if(!strcasecmp(capMode.c_str(), "butt")){
+                cairo_set_line_cap(cr, (cap=CAIRO_LINE_CAP_BUTT));
+            } else if(!strcasecmp(capMode.c_str(), "round")){
+                cairo_set_line_cap(cr, (cap=CAIRO_LINE_CAP_ROUND));
+            } else if(!strcasecmp(capMode.c_str(), "square")){
+                cairo_set_line_cap(cr, (cap=CAIRO_LINE_CAP_SQUARE));
+            }
+        }
+    } else {
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, (std::string("\n--> unknown stroke cap \"" )+ capMode + std::string("\", expected BUTT, ROUND or SQUARE. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
+    } return statusOk;
+}
+
+bool CairoInterpreter001::strokeSetLineJoin(cairo_t * cr,  cairo_line_join_t & join, std::unordered_map<std::__1::string, std::__1::string> &attributeSet){
+    bool statusOk = true;
+    std::string joinMode;
+    static const std::regex supportedJoinModes = std::regex("(|BEVEL|ROUND|MITER)", std::regex::icase);
+
+    joinMode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "join", attributeSet, true);
+
+    statusOk = (std::regex_match(joinMode, supportedJoinModes)) ? statusOk : false;
+
+    if(statusOk ){
+        if(!joinMode.empty()){
+            if(!strcasecmp(joinMode.c_str(), "bevel")){
+                cairo_set_line_join(cr, (join = CAIRO_LINE_JOIN_BEVEL));
+            } else if(!strcasecmp(joinMode.c_str(), "round")){
+                cairo_set_line_join(cr, (join = CAIRO_LINE_JOIN_ROUND));
+            } else if(!strcasecmp(joinMode.c_str(), "miter")){
+                cairo_set_line_join(cr, (join = CAIRO_LINE_JOIN_MITER));
+            }
+        }
+    } else {
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, (std::string("\n--> unknown stroke join \"") + joinMode + std::string("\", expected BEVEL, ROUND or MITER. line: ") + std::to_string(parser.getXmlNodeLine())).c_str());
+    } return statusOk;
+}
+
+void CairoInterpreter001::clearDrawEventStack(){
+    while(drawEventStack.size()){
+        drawEventStack.pop();
+    }
+}
+
+void CairoInterpreter001::imageMain(cairo_t * cr){
+     while(parser.nodeHasLink(Parser::NodeLink::NEXT)){
+        if(!embeddedApplyStackSize) clearDrawEventStack();
+        if(!strcasecmp(parser.getXmlNodeName().c_str(), "export")){
+            handleImageExport(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "import")){
+            handleImport();
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "apply")){
+            handleImageApply(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "rotate")){
+            handleImageRotate(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "scale")){
+            handleImageScale(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "translate")){
+            handleImageTranslate(cr);
+        }  else if(!strcasecmp(parser.getXmlNodeName().c_str(), "rect")){
+            handleImageRect(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "arc")){
+            handleImageArc(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "fill")){
+            handleImageFill(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "paint")){
+            handleImagePaint(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "textstr")){
+            handleImageText(cr);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "stroke")){
+            handleImageStroke(cr);
+        } parser.getNodeLink(Parser::NodeLink::NEXT);
+    }
+}
+
+void CairoInterpreter001::handleImageText(cairo_t * cr){
+    double x,y, size;
+    std::string value, font;
+    cairo_font_slant_t slant;
+    cairo_font_weight_t weight;
+    
+    if(getTextData(x, y, size,slant, weight, value, font)){
+        cairo_set_font_size(cr, size);
+        cairo_select_font_face(cr, font.c_str(), slant, weight);
+        cairo_move_to(cr,x,y);
+        cairo_text_path(cr,value.c_str());
+        cairo_push_group(cr);
+        if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
+            parser.getNodeLink(Parser::NodeLink::CHILDREN);
+            imageMain(cr);
+            parser.getNodeLink(Parser::NodeLink::PARENT);
+        } 
+        cairo_pop_group_to_source(cr);
+        cairo_set_font_size(cr, size);
+        cairo_select_font_face(cr,font.c_str(), slant, weight);
+        cairo_move_to(cr,x,y);
+        cairo_text_path(cr,value.c_str());
+        cairo_fill(cr);
+    }
+}
+
+void CairoInterpreter001::handleImageTranslate(cairo_t * cr){
+    double x,y;
+    auto attributeSet = parser.getXmlNodeAttributes();
+    bool statusOk = true;
+
+    std::vector<double> valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "x", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("transform:x",x, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "y", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("transform:y",y, valueSet, parser)) ? statusOk : false;
+
+    if(statusOk) {
+        cairo_translate(cr, x,y);
+        cairo_push_group(cr);
+        if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
+            parser.getNodeLink(Parser::NodeLink::CHILDREN);
+            imageMain(cr);
+            parser.getNodeLink(Parser::NodeLink::PARENT);
+        } 
+        cairo_pop_group_to_source(cr);
+        cairo_translate(cr, -x,-y);
+        cairo_paint(cr);
+    }
+}
+
+void CairoInterpreter001::handleImageRotate(cairo_t * cr){
+    double deg;
+    auto attributeSet = parser.getXmlNodeAttributes();
+    bool statusOk = true;
+
+    std::vector<double> valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "deg", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("transform:x",deg, valueSet, parser, false)) ? statusOk : false;
+
+    if(statusOk) {
+        cairo_rotate(cr, deg);
+        cairo_push_group(cr);
+        if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
+            parser.getNodeLink(Parser::NodeLink::CHILDREN);
+            imageMain(cr);
+            parser.getNodeLink(Parser::NodeLink::PARENT);
+        } 
+        cairo_pop_group_to_source(cr);
+        cairo_rotate(cr, -deg);
+        cairo_paint(cr);
+    } 
+}
+
+void CairoInterpreter001::handleImageScale(cairo_t * cr){
+    double x,y;
+    auto attributeSet = parser.getXmlNodeAttributes();
+    bool statusOk = true;
+
+    std::vector<double> valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "x", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("transform:x",x, valueSet, parser)) ? statusOk : false;
+
+    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "y", attributeSet));
+    statusOk = (getVerifiedSingleRelativeValue("transform:y",y, valueSet, parser)) ? statusOk : false;
+
+    if(statusOk) {
+        cairo_scale(cr, x,y);
+        cairo_push_group(cr);
+        if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
+            parser.getNodeLink(Parser::NodeLink::CHILDREN);
+            imageMain(cr);
+            parser.getNodeLink(Parser::NodeLink::PARENT);
+        } 
+        cairo_pop_group_to_source(cr);
+        cairo_scale(cr, pow(x,-1),pow(y,-1));
+        cairo_paint(cr);
+    }
+}
+
+void CairoInterpreter001::handleImageRect(cairo_t * cr){
+    double x,y,w,h;
+    if(getRectCoords(x,y,w,h)){
         cairo_rectangle(cr,x,y,w,h);
         cairo_push_group(cr);
         if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
@@ -154,24 +540,10 @@ void CairoInterpreter001::handleImageRect(cairo_t * cr){
 }
 
 void CairoInterpreter001::handleImageArc(cairo_t * cr){
-    bool statusOk = true;
     double radius,begin,end;
-    std::vector<double> center, valueSet; 
-    auto attributeSet = parser.getXmlNodeAttributes();
+    std::vector<double> center;
 
-    center = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "center", attributeSet));
-    statusOk = (verifyArcCenter(center, parser)) ? statusOk : false;
-
-    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "radius", attributeSet));
-    statusOk = (getVerifiedSingleRelativeValue("img:arc:radius", radius, valueSet, parser)) ? statusOk : false;
-
-    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "begin", attributeSet));
-    statusOk = (getVerifiedSingleRelativeValue("img:arc:begin", begin, valueSet, parser)) ? statusOk : false;
-
-    valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "end", attributeSet));
-    statusOk = (getVerifiedSingleRelativeValue("img:arc:end", end, valueSet, parser)) ? statusOk : false;
-
-    if(statusOk){
+    if(getArcCoords(center,radius, begin,end)){
         cairo_arc(cr, center[0], center[1], radius, begin, end);
         cairo_push_group(cr);
         if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
@@ -185,61 +557,94 @@ void CairoInterpreter001::handleImageArc(cairo_t * cr){
     }
 }
 
-void CairoInterpreter001::handleImageFill(cairo_t * cr){
+bool CairoInterpreter001::handleImageDrawArguments(cairo_t * cr){
     auto attributeSet = parser.getXmlNodeAttributes();
     std::string gradientId = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "gradient", attributeSet, true);
-    
-    if(gradientId.empty()){
-        std::vector<double> color = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "color", attributeSet));
-        if(verifyColor(color,parser)){
-            cairo_set_source_rgba(cr, color[0], color[1], color[2], color.size() == 3 ? 1.0 : color[3]);
+    std::string imageId = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "image", attributeSet, true);
+    bool statusOk = false;    
+    if(!imageId.empty()){
+        std::pair<cairo_t *, cairo_surface_t *>* imageData;
+        if((imageData = getImageByid(imageId))){
+            statusOk = true;
+            cairo_surface_set_device_scale(imageData->second, current_device_width, current_device_height);
+            cairo_set_source_surface(cr, imageData->second,0, 0);
         }
-    } else {
+    } else if(!gradientId.empty()){
         cairo_pattern_t * gradient;
         if((gradient = getGradientById(gradientId))){
+            statusOk = true;
             cairo_set_source(cr, gradient);
         }
-    }
+    } else {
+        std::vector<double> color = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "color", attributeSet));
+        if(verifyColor(color,parser)){
+            statusOk = true;
+            cairo_set_source_rgba(cr, color[0], color[1], color[2], color.size() == 3 ? 1.0 : color[3]);
+        }
+    } return statusOk;
+}
+
+void CairoInterpreter001::handleImageFill(cairo_t * cr){
+    auto attributeSet = parser.getXmlNodeAttributes();
 
     std::string mode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "mode", attributeSet, true);
 
-    if (!strcmp(mode.c_str(), "normal") || mode.empty()){
-        cairo_fill(cr);
-    } else if (!strcmp(mode.c_str(), "preserve")){
-        cairo_fill_preserve(cr);
-    } else {
-        gmlWarn(__FUNCTION__, __FILE__, __LINE__, ("\n--> unknown fill:mode \"" + mode + "\" expected \"normal\" or \"preserve\". graphml line: " + std::to_string(parser.getXmlNodeLine())).c_str());
+    if(handleImageDrawArguments(cr)){
+        if (!strcmp(mode.c_str(), "normal") || mode.empty()){
+            drawEventStack.push(std::pair<DrawEvent, std::optional<StrokeProperties>>{Fill, {}});
+            cairo_fill(cr);
+        } else if (!strcmp(mode.c_str(), "preserve")){
+            drawEventStack.push(std::pair<DrawEvent, std::optional<StrokeProperties>>{FillPreserve, {}});        
+            cairo_fill_preserve(cr);
+        } else {
+            gmlWarn(__FUNCTION__, __FILE__, __LINE__, ("\n--> unknown fill:mode \"" + mode + "\" expected \"normal\" or \"preserve\". graphml line: " + std::to_string(parser.getXmlNodeLine())).c_str());
+        }
     }
 }
 
-void CairoInterpreter001::handleImageStroke(cairo_t * cr){
+void CairoInterpreter001::handleImagePaint(cairo_t * cr){
     auto attributeSet = parser.getXmlNodeAttributes();
-    std::string gradientId = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "gradient", attributeSet, true);
-    double width = 1;
-    std::vector<double> valueSet;
 
-    if(gradientId.empty()){
-        std::vector<double> color = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "color", attributeSet));
-        if(verifyColor(color,parser)){
-            cairo_set_source_rgba(cr, color[0], color[1], color[2], color.size() == 3 ? 1.0 : color[3]);
-        }
-    } else {
-        cairo_pattern_t * gradient;
-        if((gradient = getGradientById(gradientId))){
-            cairo_set_source(cr, gradient);
-        }
+    auto valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "alpha", attributeSet, true));
+    double alpha = 1;
+    bool statusOk = true;
+    if(valueSet.size()){
+        statusOk = getVerifiedSingleRelativeValue("paint::alpha",alpha, valueSet, parser) ? statusOk : false;
     }
 
-    std::string mode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "mode", attributeSet, true);
+    if(statusOk && handleImageDrawArguments(cr)) cairo_paint_with_alpha(cr, alpha);
+}
+
+void CairoInterpreter001::handleImageStroke(cairo_t * cr){
+    std::vector<double> valueSet;
+    std::string mode, capMode, joinMode;
+    cairo_line_cap_t cap;
+    cairo_line_join_t join;
+    cairo_pattern_t * gradient;
+    bool statusOk = true;
+    double width = 1;
+    auto attributeSet = parser.getXmlNodeAttributes();
+
+    statusOk = (handleImageDrawArguments(cr)) ? statusOk : false;
+
     valueSet = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "width", attributeSet));
     getVerifiedSingleRelativeValue("stroke::width",width, valueSet, parser);
     cairo_set_line_width(cr, width);
-    if (!strcmp(mode.c_str(), "normal") || mode.empty()){
-        cairo_stroke(cr);
-    } else if (!strcmp(mode.c_str(), "preserve")){
-        cairo_stroke_preserve(cr);
-    } else {
-        gmlWarn(__FUNCTION__, __FILE__, __LINE__, ("\n--> unknown stroke:mode \"" + mode + "\" expected \"normal\" or \"preserve\". graphml line: " + std::to_string(parser.getXmlNodeLine())).c_str());
+
+    mode = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "mode", attributeSet, true);
+
+    statusOk = (strokeSetLineCap(cr, cap, attributeSet) && strokeSetLineJoin(cr, join, attributeSet)) ? statusOk : false;
+
+    if(statusOk){
+        if (!strcmp(mode.c_str(), "normal") || mode.empty()){
+            drawEventStack.push(std::pair<DrawEvent, StrokeProperties>{Stroke, StrokeProperties(width, cap, join)});
+            cairo_stroke(cr);
+        } else if (!strcmp(mode.c_str(), "preserve")){
+            drawEventStack.push(std::pair<DrawEvent, StrokeProperties>{StrokePreserve, StrokeProperties(width, cap, join)});
+            cairo_stroke_preserve(cr);
+        } else {
+            gmlWarn(__FUNCTION__, __FILE__, __LINE__, ("\n--> unknown stroke:mode \"" + mode + "\" expected \"normal\" or \"preserve\". graphml line: " + std::to_string(parser.getXmlNodeLine())).c_str());
+        }
     }
 }
 
@@ -253,26 +658,102 @@ void CairoInterpreter001::handleImageExport(cairo_t * cr){
     }
 }
 
+void CairoInterpreter001::handleImport(){
+    cairo_surface_t * surfc;
+    cairo_status_t surfc_status;
+    std::string filename;
+    bool statusOk = false;
+    std::string errorCause;
+    auto attributeSet = parser.getXmlNodeAttributes();
+    std::string id = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "id", attributeSet);
+    if(!id.empty()){
+        filename = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "filename", attributeSet);
+        if(!filename.empty() && !id.empty()){
+        surfc = cairo_image_surface_create_from_png(filename.c_str());
+        surfc_status = cairo_surface_status(surfc);
+        switch (surfc_status){
+        case CAIRO_STATUS_NO_MEMORY: errorCause = "CAIRO_STATUS_NO_MEMORY"; break;
+        case CAIRO_STATUS_FILE_NOT_FOUND: errorCause = "CAIRO_STATUS_FILE_NOT_FOUND"; break;
+        case CAIRO_STATUS_READ_ERROR: errorCause = "CAIRO_STATUS_READ_ERROR"; break;
+        case CAIRO_STATUS_PNG_ERROR: errorCause = "CAIRO_STATUS_PNG_ERROR"; break;
+        default: statusOk = true;break;
+        }
+        if(!statusOk){
+            gmlWarn(__FUNCTION__, __FILE__, __LINE__, (std::string("\n--> unable to import file :")+filename+" graphml line: " + std::to_string(parser.getXmlNodeLine()) + ", cause: " + errorCause).c_str());
+        } else {
+            addImage(id,{NULL, surfc});
+        }
+    }
+    } else {
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, (std::string("\n--> unidentified image imports are ignored... line: ")+std::to_string( parser.getXmlNodeLine())).c_str());
+    }
+}
+
+void CairoInterpreter001::handleImageApply(cairo_t * cr){
+    auto attributeSet = parser.getXmlNodeAttributes();
+    std::string path = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "path", attributeSet);
+    xmlNode* pathCur;
+    DrawEvent firstDrawEvent;
+    if(!path.empty() && paths.count(path) && (pathCur = paths[path])){
+        applyMain(cr, pathCur);
+        cairo_push_group(cr);
+        if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
+            parser.getNodeLink(Parser::NodeLink::CHILDREN);
+            embeddedApplyStackSize++;
+            imageMain(cr);
+            embeddedApplyStackSize--;
+            parser.getNodeLink(Parser::NodeLink::PARENT);
+        }
+        cairo_pop_group_to_source(cr);
+        applyMain(cr, pathCur);
+        while(drawEventStack.size() > 1) drawEventStack.pop();
+        if(drawEventStack.size() == 1){
+            firstDrawEvent = drawEventStack.top().first;
+            switch (firstDrawEvent)
+            {
+            case FillPreserve:
+            case Fill:
+                cairo_fill(cr);
+                break;
+            case StrokePreserve:
+            case Stroke:
+                if(drawEventStack.top().second.has_value()){
+                    cairo_set_line_join(cr, drawEventStack.top().second->join);
+                    cairo_set_line_cap(cr, drawEventStack.top().second->cap);
+                    cairo_set_line_width(cr, drawEventStack.top().second->lineWidth);
+                }
+                cairo_stroke(cr);
+                break;
+            }
+        }
+    } else {
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, (std::string("\n--> failed to apply path \"")+path+std::string("\"... line: ")+std::to_string( parser.getXmlNodeLine())).c_str());
+    }
+}
+
+
 void CairoInterpreter001::main() {
     while(parser.nodeHasLink(Parser::NodeLink::NEXT)){
-        // std::cout << parser.getXmlNodeName() << std::endl;
         if(std::regex_match(parser.getXmlNodeName(), gradientRegex)){
             handleGradient();
         } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "img")){
             handleImage();
-        } 
-        parser.getNodeLink(Parser::NodeLink::NEXT);
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "path")){
+            handlePath();
+        } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "import")){
+            handleImport();
+        } parser.getNodeLink(Parser::NodeLink::NEXT);
     }
 }
 
 CairoInterpreter001::GradientType getGradientType(std::string typeStr){
-        if(!strcasecmp(typeStr.c_str(), "linear")){
-            return CairoInterpreter001::GradientType::Linear;
-        } else if (!strcasecmp(typeStr.c_str(), "radial")){
-            return CairoInterpreter001::GradientType::Radial;
-        } else {
-            return CairoInterpreter001::GradientType::Unknown;
-        }
+    if(!strcasecmp(typeStr.c_str(), "linear")){
+        return CairoInterpreter001::GradientType::Linear;
+    } else if (!strcasecmp(typeStr.c_str(), "radial")){
+        return CairoInterpreter001::GradientType::Radial;
+    } else {
+        return CairoInterpreter001::GradientType::Unknown;
+    }
 }
 
 void CairoInterpreter001::handleGradient() {
@@ -287,7 +768,6 @@ void CairoInterpreter001::handleGradient() {
     id = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "id", attributeSet);
 
     if(!id.empty()){
-        
         typeStr = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "type", attributeSet);
         begin = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "begin", attributeSet));
         end = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "end", attributeSet));
@@ -328,6 +808,19 @@ void CairoInterpreter001::handleGradient() {
     }
 }
 
+void CairoInterpreter001::handlePath(){
+    std::string id;
+    auto attributeSet = parser.getXmlNodeAttributes();
+
+    id = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "id", attributeSet);
+
+    if(!id.empty()){
+        addPath(id, parser.cur);
+    } else {
+        gmlWarn(__FUNCTION__,__FILE__, __LINE__, (std::string("\n--> unidentified paths are ignored... line: ")+std::to_string( parser.getXmlNodeLine())).c_str());
+    }
+}
+
 bool getVerifiedImageSide(const char * sideName, double & side,  std::vector<double> attributeSet, Parser & parser){
     bool statusOk = true;
 
@@ -351,7 +844,7 @@ void CairoInterpreter001::handleImage(){
     cairo_surface_t * image;
     cairo_t * cr;
 
-    id = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "id", attributeSet);
+    id = parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "id", attributeSet, true);
 
     attributeValues = gisl::evaluateExpression(parser.getRequiredAttribute(parser.getXmlNodeName(), parser.getXmlNodeLine(), "w", attributeSet));
     statusOk = (statusOk) ? getVerifiedImageSide("w", w, attributeValues, parser) : false;
@@ -359,6 +852,8 @@ void CairoInterpreter001::handleImage(){
     statusOk = (statusOk) ? getVerifiedImageSide("h", h, attributeValues, parser) : false;
 
     if(statusOk){
+        current_device_width = w;
+        current_device_height = h;
         image = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,w,h);
         gmlCheck(image, gmlError, __FUNCTION__, __FILE__, __LINE__, "\n--> unable to allocate image_surface");
         cr = cairo_create(image);
@@ -369,8 +864,7 @@ void CairoInterpreter001::handleImage(){
             parser.getNodeLink(Parser::NodeLink::CHILDREN);
             imageMain(cr);
             parser.getNodeLink(Parser::NodeLink::PARENT);
-        } 
-
+        }
         if(!id.empty()) {
             addImage(id, std::__1::pair<cairo_t *, cairo_surface_t *> {cr, image});
         }
