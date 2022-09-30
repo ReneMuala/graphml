@@ -34,5 +34,5 @@ onlyMain:
 	g++ -std=c++17 ./src/main.cpp -lxml2 -lcairo build/*.o -o build/main
 
 linkMain:
-	$(linker) $(buildDir)/*.o -lxml2 -lcairo  -o $(buildDir)/main
+	$(linker) $(buildDir)/*.o -lxml2 -lcairo  -o $(buildDir)/graphml
 
