@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lineargradientregex_125',['linearGradientRegex',['../class_cairo_interpreter.html#a92f3905d109e347ee6d912a831964f93',1,'CairoInterpreter']]]
+  ['gradients_245',['gradients',['../class_cairo_interpreter001.html#a4449ca19b9a98c35c4675dac8b8841d2',1,'CairoInterpreter001']]]
 ];

@@ -93,12 +93,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa5750b02ac1bd78623e6bb0b9d2c0f4e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#aa5750b02ac1bd78623e6bb0b9d2c0f4e">Parser</a> (const std::string filename)</td></tr>
 <tr class="memdesc:aa5750b02ac1bd78623e6bb0b9d2c0f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_parser.html" title="Graphml file parser.">Parser</a> object.  <a href="class_parser.html#aa5750b02ac1bd78623e6bb0b9d2c0f4e">More...</a><br /></td></tr>
 <tr class="separator:aa5750b02ac1bd78623e6bb0b9d2c0f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e658b5917a93a3ef648050d060e3a93"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#a3e658b5917a93a3ef648050d060e3a93">~Parser</a> ()</td></tr>
+<tr class="memdesc:a3e658b5917a93a3ef648050d060e3a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a <a class="el" href="class_parser.html" title="Graphml file parser.">Parser</a>.  <a href="class_parser.html#a3e658b5917a93a3ef648050d060e3a93">More...</a><br /></td></tr>
+<tr class="separator:a3e658b5917a93a3ef648050d060e3a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fdbfc417c215255fc8dd85acdef690b"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#a2fdbfc417c215255fc8dd85acdef690b">getXmlNodeAttributes</a> ()</td></tr>
 <tr class="memdesc:a2fdbfc417c215255fc8dd85acdef690b"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns an unordered map containing of the current Xml Node Attributes  <a href="class_parser.html#a2fdbfc417c215255fc8dd85acdef690b">More...</a><br /></td></tr>
 <tr class="separator:a2fdbfc417c215255fc8dd85acdef690b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afee1b233a05f38563960d47349e11de2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#afee1b233a05f38563960d47349e11de2">getRequiredAttribute</a> (std::string elementName, long elementLine, std::string attributeName, std::unordered_map&lt; std::string, std::string &gt; attributeSet)</td></tr>
-<tr class="memdesc:afee1b233a05f38563960d47349e11de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">tries to return a required attribute from an attribute set.  <a href="class_parser.html#afee1b233a05f38563960d47349e11de2">More...</a><br /></td></tr>
-<tr class="separator:afee1b233a05f38563960d47349e11de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7210d836213e988e5f120e763152dc25"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#a7210d836213e988e5f120e763152dc25">getRequiredAttribute</a> (std::string elementName, long elementLine, std::string attributeName, std::unordered_map&lt; std::string, std::string &gt; attributeSet, bool optional=false)</td></tr>
+<tr class="memdesc:a7210d836213e988e5f120e763152dc25"><td class="mdescLeft">&#160;</td><td class="mdescRight">tries to return a required attribute from an attribute set.  <a href="class_parser.html#a7210d836213e988e5f120e763152dc25">More...</a><br /></td></tr>
+<tr class="separator:a7210d836213e988e5f120e763152dc25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b50f57837b46b309175daf3a0cc2b13"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#a8b50f57837b46b309175daf3a0cc2b13">getXmlNodeName</a> ()</td></tr>
 <tr class="memdesc:a8b50f57837b46b309175daf3a0cc2b13"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the name of the current node  <a href="class_parser.html#a8b50f57837b46b309175daf3a0cc2b13">More...</a><br /></td></tr>
 <tr class="separator:a8b50f57837b46b309175daf3a0cc2b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,6 +147,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a347ae909064cf9a47f9883e7803b841e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#a347ae909064cf9a47f9883e7803b841e">engine</a> = &quot;cairo&quot;</td></tr>
 <tr class="memdesc:a347ae909064cf9a47f9883e7803b841e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The engine to be used.  <a href="class_parser.html#a347ae909064cf9a47f9883e7803b841e">More...</a><br /></td></tr>
 <tr class="separator:a347ae909064cf9a47f9883e7803b841e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05fcbdfb6e831b50ff2e086b70173980"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#a05fcbdfb6e831b50ff2e086b70173980">mode</a> = &quot;pixel&quot;</td></tr>
+<tr class="memdesc:a05fcbdfb6e831b50ff2e086b70173980"><td class="mdescLeft">&#160;</td><td class="mdescRight">coordinates mode. may be "relative" for values in [0;1] or "pixel" for pixel values.  <a href="class_parser.html#a05fcbdfb6e831b50ff2e086b70173980">More...</a><br /></td></tr>
+<tr class="separator:a05fcbdfb6e831b50ff2e086b70173980"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -198,6 +204,25 @@ Private Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a3e658b5917a93a3ef648050d060e3a93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e658b5917a93a3ef648050d060e3a93">&#9670;&nbsp;</a></span>~Parser()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Parser::~Parser </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys a <a class="el" href="class_parser.html" title="Graphml file parser.">Parser</a>. </p>
 
 </div>
 </div>
@@ -268,8 +293,8 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="afee1b233a05f38563960d47349e11de2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afee1b233a05f38563960d47349e11de2">&#9670;&nbsp;</a></span>getRequiredAttribute()</h2>
+<a id="a7210d836213e988e5f120e763152dc25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7210d836213e988e5f120e763152dc25">&#9670;&nbsp;</a></span>getRequiredAttribute()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -296,7 +321,13 @@ Private Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::unordered_map&lt; std::string, std::string &gt;&#160;</td>
-          <td class="paramname"><em>attributeSet</em>&#160;</td>
+          <td class="paramname"><em>attributeSet</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>optional</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -313,6 +344,7 @@ Private Member Functions</h2></td></tr>
     <tr><td class="paramname">elementLine</td><td>the node line </td></tr>
     <tr><td class="paramname">attributeName</td><td>the attribute name </td></tr>
     <tr><td class="paramname">attributeSet</td><td>an attribute set </td></tr>
+    <tr><td class="paramname">optional</td><td>to avoid errors when the attribute is not found </td></tr>
   </table>
   </dd>
 </dl>
@@ -637,6 +669,22 @@ false if the node has not children </dd></dl>
 </div><div class="memdoc">
 
 <p>The engine to be used. </p>
+
+</div>
+</div>
+<a id="a05fcbdfb6e831b50ff2e086b70173980"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05fcbdfb6e831b50ff2e086b70173980">&#9670;&nbsp;</a></span>mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Parser::mode = &quot;pixel&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>coordinates mode. may be "relative" for values in [0;1] or "pixel" for pixel values. </p>
 
 </div>
 </div>

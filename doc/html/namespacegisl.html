@@ -71,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Graphml immediate scrip language handler. Used to handle gisl instructions passed to graphml properties.  
+<p>Graphml immediate script language handler. Used to handle gisl instructions passed to graphml properties.  
 <a href="namespacegisl.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -79,31 +79,47 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a85f5fb63e3917ed84e1cd30360341179"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179">InstructionType</a> { <br />
 &#160;&#160;<a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179ae02141090c7d23819ccdbeb9fa605c48">Arithmetic</a>
 , <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179aa36116d52600eb9ab2f94403a2f48e64">Logic</a>
-, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a64e74302ea1777aad4a25c7d712b1e30">Set</a>
-, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179ab45fb1b844a14e23fcb2f9ac9a524485">Get</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179ae9a334687acca7de1c6702b1e8653bf5">LibMath</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a1f8606b0fc47b30337dddf28dbaa52f1">Loop</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179aeba52ab4cef91e969120a8e8f6ba3dd1">None</a>
+&#160;&#160;<a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a64e74302ea1777aad4a25c7d712b1e30">Set</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179ab45fb1b844a14e23fcb2f9ac9a524485">Get</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a86bade06ae13bbb82f1d1c94677949e6">Color</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179aeba52ab4cef91e969120a8e8f6ba3dd1">None</a>
 <br />
  }</td></tr>
 <tr class="separator:a85f5fb63e3917ed84e1cd30360341179"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a064159ada436f151059a7d18239679df"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a064159ada436f151059a7d18239679df">getSet</a> (std::string expression)</td></tr>
-<tr class="memdesc:a064159ada436f151059a7d18239679df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the values of a simple set.  <a href="namespacegisl.html#a064159ada436f151059a7d18239679df">More...</a><br /></td></tr>
-<tr class="separator:a064159ada436f151059a7d18239679df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aece5dda1a15a6f1fc9415f59758103bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#aece5dda1a15a6f1fc9415f59758103bb">clearLocalVars</a> ()</td></tr>
+<tr class="separator:aece5dda1a15a6f1fc9415f59758103bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2db5596a70b0c5c347f777845813113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#af2db5596a70b0c5c347f777845813113">init</a> ()</td></tr>
+<tr class="separator:af2db5596a70b0c5c347f777845813113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaf3273ababb35d877d1570332888f74"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#acaf3273ababb35d877d1570332888f74">getSet</a> (std::string expression, int maxSize=-1)</td></tr>
+<tr class="memdesc:acaf3273ababb35d877d1570332888f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the values of a simple set.  <a href="namespacegisl.html#acaf3273ababb35d877d1570332888f74">More...</a><br /></td></tr>
+<tr class="separator:acaf3273ababb35d877d1570332888f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44a05569deefcb36214129eaaba62c69"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a44a05569deefcb36214129eaaba62c69">evaluateAtomicArithmeticExpression</a> (std::string expression)</td></tr>
 <tr class="memdesc:a44a05569deefcb36214129eaaba62c69"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a single arithmetic expression.  <a href="namespacegisl.html#a44a05569deefcb36214129eaaba62c69">More...</a><br /></td></tr>
 <tr class="separator:a44a05569deefcb36214129eaaba62c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a613f838e6b53b27751aaaf6363107de4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a613f838e6b53b27751aaaf6363107de4">evaluateAtomicColorExpression</a> (std::string expression)</td></tr>
+<tr class="memdesc:a613f838e6b53b27751aaaf6363107de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a single color expression.  <a href="namespacegisl.html#a613f838e6b53b27751aaaf6363107de4">More...</a><br /></td></tr>
+<tr class="separator:a613f838e6b53b27751aaaf6363107de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31bc4d7dc5bc0089f2698d8931c5c7d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a31bc4d7dc5bc0089f2698d8931c5c7d2">evaluateAtomicLogicExpression</a> (std::string expression)</td></tr>
 <tr class="memdesc:a31bc4d7dc5bc0089f2698d8931c5c7d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a single logic expression.  <a href="namespacegisl.html#a31bc4d7dc5bc0089f2698d8931c5c7d2">More...</a><br /></td></tr>
 <tr class="separator:a31bc4d7dc5bc0089f2698d8931c5c7d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfe3a98fad34a508792ef67f89dab38a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#abfe3a98fad34a508792ef67f89dab38a">evaluateAtomicLibMathExpression</a> (std::string expression)</td></tr>
+<tr class="memdesc:abfe3a98fad34a508792ef67f89dab38a"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a single trigonometric expression.  <a href="namespacegisl.html#abfe3a98fad34a508792ef67f89dab38a">More...</a><br /></td></tr>
+<tr class="separator:abfe3a98fad34a508792ef67f89dab38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba79287a1c1e2c96c92a2a0109648b85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#aba79287a1c1e2c96c92a2a0109648b85">evaluateSet</a> (std::string expression)</td></tr>
 <tr class="memdesc:aba79287a1c1e2c96c92a2a0109648b85"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a set expression.  <a href="namespacegisl.html#aba79287a1c1e2c96c92a2a0109648b85">More...</a><br /></td></tr>
 <tr class="separator:aba79287a1c1e2c96c92a2a0109648b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bdfd1baf4851c1578eb33365581e188"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a5bdfd1baf4851c1578eb33365581e188">evaluateGet</a> (std::string expression)</td></tr>
 <tr class="memdesc:a5bdfd1baf4851c1578eb33365581e188"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a get expression.  <a href="namespacegisl.html#a5bdfd1baf4851c1578eb33365581e188">More...</a><br /></td></tr>
 <tr class="separator:a5bdfd1baf4851c1578eb33365581e188"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2ab54cfd8578f97171f6ef0ec677256"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#ad2ab54cfd8578f97171f6ef0ec677256">evaluateLoop</a> (std::string expression)</td></tr>
+<tr class="memdesc:ad2ab54cfd8578f97171f6ef0ec677256"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a loop expression.  <a href="namespacegisl.html#ad2ab54cfd8578f97171f6ef0ec677256">More...</a><br /></td></tr>
+<tr class="separator:ad2ab54cfd8578f97171f6ef0ec677256"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7588fd15f14a2655f8aa25dfa6792d05"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a7588fd15f14a2655f8aa25dfa6792d05">evaluateExpression</a> (std::string expression)</td></tr>
 <tr class="memdesc:a7588fd15f14a2655f8aa25dfa6792d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a set of arithmetic expressions.  <a href="namespacegisl.html#a7588fd15f14a2655f8aa25dfa6792d05">More...</a><br /></td></tr>
 <tr class="separator:a7588fd15f14a2655f8aa25dfa6792d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,7 +134,7 @@ Variables</h2></td></tr>
 <tr class="separator:a3889e497e1e7218afca59cef727382a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Graphml immediate scrip language handler. Used to handle gisl instructions passed to graphml properties. </p>
+<div class="textblock"><p>Graphml immediate script language handler. Used to handle gisl instructions passed to graphml properties. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a85f5fb63e3917ed84e1cd30360341179"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a85f5fb63e3917ed84e1cd30360341179">&#9670;&nbsp;</a></span>InstructionType</h2>
@@ -137,14 +153,39 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179aa36116d52600eb9ab2f94403a2f48e64"></a>Logic&#160;</td><td class="fielddoc"><p>Logic expressions. Supported operations: and, or, xor, not. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179a64e74302ea1777aad4a25c7d712b1e30"></a>Set&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179ab45fb1b844a14e23fcb2f9ac9a524485"></a>Get&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179ae9a334687acca7de1c6702b1e8653bf5"></a>LibMath&#160;</td><td class="fielddoc"><p>LobMath expressions. Supported operations: abs, sin, asin, cos, acos, tan, tanh, atan, cosh, ceil, floor, exp, sqrt, deg. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179a1f8606b0fc47b30337dddf28dbaa52f1"></a>Loop&#160;</td><td class="fielddoc"><p>A loop routine. [N]{ABC}. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacegisl.html#ad2ab54cfd8578f97171f6ef0ec677256" title="evaluates a loop expression.">evaluateLoop</a> </dd></dl>
+</td></tr>
+<tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179a64e74302ea1777aad4a25c7d712b1e30"></a>Set&#160;</td><td class="fielddoc"><dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacegisl.html#aba79287a1c1e2c96c92a2a0109648b85" title="evaluates a set expression.">evaluateSet</a> </dd></dl>
+</td></tr>
+<tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179ab45fb1b844a14e23fcb2f9ac9a524485"></a>Get&#160;</td><td class="fielddoc"><dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacegisl.html#a5bdfd1baf4851c1578eb33365581e188" title="evaluates a get expression.">evaluateGet</a> </dd></dl>
+</td></tr>
+<tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179a86bade06ae13bbb82f1d1c94677949e6"></a>Color&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a85f5fb63e3917ed84e1cd30360341179aeba52ab4cef91e969120a8e8f6ba3dd1"></a>None&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="aece5dda1a15a6f1fc9415f59758103bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aece5dda1a15a6f1fc9415f59758103bb">&#9670;&nbsp;</a></span>clearLocalVars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gisl::clearLocalVars </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a44a05569deefcb36214129eaaba62c69"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a44a05569deefcb36214129eaaba62c69">&#9670;&nbsp;</a></span>evaluateAtomicArithmeticExpression()</h2>
 
@@ -162,7 +203,63 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>evaluates a single arithmetic expression. </p>
-<p>Supported operations: add, sub, mul, div.</p>
+<p>Supported operations: add, sub, mul, div, N%.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">expression</td><td>the expression to be analyzed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
+
+</div>
+</div>
+<a id="a613f838e6b53b27751aaaf6363107de4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a613f838e6b53b27751aaaf6363107de4">&#9670;&nbsp;</a></span>evaluateAtomicColorExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string gisl::evaluateAtomicColorExpression </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>expression</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>evaluates a single color expression. </p>
+<p>Supported operations: rgb, rgba.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">expression</td><td>the expression to be analyzed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::string rrr, ggg, bbb, aaa </dd></dl>
+
+</div>
+</div>
+<a id="abfe3a98fad34a508792ef67f89dab38a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfe3a98fad34a508792ef67f89dab38a">&#9670;&nbsp;</a></span>evaluateAtomicLibMathExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double gisl::evaluateAtomicLibMathExpression </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>expression</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>evaluates a single trigonometric expression. </p>
+<p>Supported operations: sin, cos, tan,</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">expression</td><td>the expression to be analyzed. </td></tr>
@@ -256,6 +353,34 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ad2ab54cfd8578f97171f6ef0ec677256"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2ab54cfd8578f97171f6ef0ec677256">&#9670;&nbsp;</a></span>evaluateLoop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string gisl::evaluateLoop </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>expression</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>evaluates a loop expression. </p>
+<p>A loop in gisl consists in a expression that is going to be repeated n times. Syntax: "[N]{ABC}" Where N is the number of repetitions and ABC is the code to repeat.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">expression</td><td>the expression to be analyzed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::string the new expression. </dd></dl>
+
+</div>
+</div>
 <a id="aba79287a1c1e2c96c92a2a0109648b85"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aba79287a1c1e2c96c92a2a0109648b85">&#9670;&nbsp;</a></span>evaluateSet()</h2>
 
@@ -283,8 +408,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a064159ada436f151059a7d18239679df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a064159ada436f151059a7d18239679df">&#9670;&nbsp;</a></span>getSet()</h2>
+<a id="acaf3273ababb35d877d1570332888f74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaf3273ababb35d877d1570332888f74">&#9670;&nbsp;</a></span>getSet()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -293,8 +418,18 @@ Variables</h2></td></tr>
           <td class="memname">std::vector&lt; double &gt; gisl::getSet </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>expression</em></td><td>)</td>
+          <td class="paramname"><em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxSize</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -304,10 +439,28 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">expression</td><td>the expression to analyze. </td></tr>
+    <tr><td class="paramname">maxSize</td><td>the maximum length allowed, -1 means infty. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
+
+</div>
+</div>
+<a id="af2db5596a70b0c5c347f777845813113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2db5596a70b0c5c347f777845813113">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gisl::init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -353,6 +506,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
 <div class="line">        {<span class="stringliteral">&quot;@beta&quot;</span>, 1},</div>
+<div class="line">        {<span class="stringliteral">&quot;@version&quot;</span>, 1e-3},</div>
+<div class="line">        {<span class="stringliteral">&quot;@pi&quot;</span>, double(M_PI)},</div>
+<div class="line">        {<span class="stringliteral">&quot;@e&quot;</span>, double(M_E)},</div>
 <div class="line">        {<span class="stringliteral">&quot;@year&quot;</span>, <a class="code" href="namespacegisl.html#af29184b0bdbbf9ae5186c85c5f703ce5">now</a>-&gt;tm_year+1900},</div>
 <div class="line">        {<span class="stringliteral">&quot;@mount&quot;</span>, <a class="code" href="namespacegisl.html#af29184b0bdbbf9ae5186c85c5f703ce5">now</a>-&gt;tm_mon},</div>
 <div class="line">        {<span class="stringliteral">&quot;@day&quot;</span>, <a class="code" href="namespacegisl.html#af29184b0bdbbf9ae5186c85c5f703ce5">now</a>-&gt;tm_mday},</div>
@@ -361,7 +517,7 @@ Variables</h2></td></tr>
 <div class="line">        {<span class="stringliteral">&quot;@minute&quot;</span>, <a class="code" href="namespacegisl.html#af29184b0bdbbf9ae5186c85c5f703ce5">now</a>-&gt;tm_min},</div>
 <div class="line">        {<span class="stringliteral">&quot;@second&quot;</span>, <a class="code" href="namespacegisl.html#af29184b0bdbbf9ae5186c85c5f703ce5">now</a>-&gt;tm_sec},</div>
 <div class="line">    }</div>
-<div class="ttc" id="anamespacegisl_html_af29184b0bdbbf9ae5186c85c5f703ce5"><div class="ttname"><a href="namespacegisl.html#af29184b0bdbbf9ae5186c85c5f703ce5">gisl::now</a></div><div class="ttdeci">tm * now</div><div class="ttdef"><b>Definition:</b> gisl.cpp:13</div></div>
+<div class="ttc" id="anamespacegisl_html_af29184b0bdbbf9ae5186c85c5f703ce5"><div class="ttname"><a href="namespacegisl.html#af29184b0bdbbf9ae5186c85c5f703ce5">gisl::now</a></div><div class="ttdeci">tm * now</div><div class="ttdef"><b>Definition:</b> gisl.cpp:14</div></div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['radialgradientregex_129',['radialGradientRegex',['../class_cairo_interpreter.html#a38e5a6134ce4973658f7a1cd00bcbe90',1,'CairoInterpreter']]]
+  ['linewidth_248',['lineWidth',['../struct_cairo_interpreter001_1_1_stroke_properties.html#ac502f89600196f845ba27403fd62131c',1,'CairoInterpreter001::StrokeProperties']]]
 ];

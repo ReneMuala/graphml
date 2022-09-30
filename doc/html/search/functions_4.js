@@ -1,4 +1,21 @@
 var searchData=
 [
-  ['main_111',['main',['../class_cairo_interpreter.html#aa87ac2c6fd920bc0128259ab459e72d2',1,'CairoInterpreter::main()'],['../class_cairo_interpreter001.html#a13ce39b41167862f74a07728c5b580f1',1,'CairoInterpreter001::main()'],['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;main.cpp']]]
+  ['handlefont_198',['handleFont',['../class_cairo_interpreter.html#a78f1254ff6650f75b651d41c368b37ea',1,'CairoInterpreter::handleFont()'],['../class_cairo_interpreter001.html#a4e7bb23dcab1aad97c5a3001f12f01fb',1,'CairoInterpreter001::handleFont()']]],
+  ['handlegradient_199',['handleGradient',['../class_cairo_interpreter.html#a3cd4de1ddf73927e4c2ea0ca4b8a18b4',1,'CairoInterpreter::handleGradient()'],['../class_cairo_interpreter001.html#ae2cbd1c4140ccf663a14b4232182ba82',1,'CairoInterpreter001::handleGradient()']]],
+  ['handleimage_200',['handleImage',['../class_cairo_interpreter.html#ac79b30ca541f7e22cf1c8f7abc91ad4f',1,'CairoInterpreter::handleImage()'],['../class_cairo_interpreter001.html#aa06baf78240025fd5a9318be0cdc643e',1,'CairoInterpreter001::handleImage() override']]],
+  ['handleimageapply_201',['handleImageApply',['../class_cairo_interpreter001.html#a4b6418cfd9779ddf8f3e4d75be0f7b91',1,'CairoInterpreter001']]],
+  ['handleimagearc_202',['handleImageArc',['../class_cairo_interpreter001.html#ae8286e33ea920015dfea0e892f280e54',1,'CairoInterpreter001']]],
+  ['handleimagedrawarguments_203',['handleImageDrawArguments',['../class_cairo_interpreter001.html#aa29554ae6b6514dc0f3ec0d4b3b6feb6',1,'CairoInterpreter001']]],
+  ['handleimageexport_204',['handleImageExport',['../class_cairo_interpreter001.html#a22a223523e2879ebaf9a6bfa2874c0df',1,'CairoInterpreter001']]],
+  ['handleimagefill_205',['handleImageFill',['../class_cairo_interpreter001.html#a0bf56e9eee1f219f8da993580475754d',1,'CairoInterpreter001']]],
+  ['handleimagepaint_206',['handleImagePaint',['../class_cairo_interpreter001.html#af62c8eef087974b01a4fd2985674dfc5',1,'CairoInterpreter001']]],
+  ['handleimagerect_207',['handleImageRect',['../class_cairo_interpreter001.html#a052afcb0437257b8f2147110f6d8476e',1,'CairoInterpreter001']]],
+  ['handleimagerotate_208',['handleImageRotate',['../class_cairo_interpreter001.html#af23a320f7866ae117cf331da49d22bb5',1,'CairoInterpreter001']]],
+  ['handleimagescale_209',['handleImageScale',['../class_cairo_interpreter001.html#adfe94eb3153d94fcc69c0f122cfb5a23',1,'CairoInterpreter001']]],
+  ['handleimagestroke_210',['handleImageStroke',['../class_cairo_interpreter001.html#aa7186bbc08214b67791c5981123529d0',1,'CairoInterpreter001']]],
+  ['handleimagetext_211',['handleImageText',['../class_cairo_interpreter001.html#a98ecc3f011d0e5adadb60455e5cececf',1,'CairoInterpreter001']]],
+  ['handleimagetranslate_212',['handleImageTranslate',['../class_cairo_interpreter001.html#a212a88e1ca130061b3a1241bd3350d38',1,'CairoInterpreter001']]],
+  ['handleimport_213',['handleImport',['../class_cairo_interpreter001.html#a8ef54369148f7ca99f4e32bd37198102',1,'CairoInterpreter001']]],
+  ['handlepath_214',['handlePath',['../class_cairo_interpreter.html#a7db4a5a05d6bbea627b563daf53d7f8d',1,'CairoInterpreter::handlePath()'],['../class_cairo_interpreter001.html#a19c083e09a8eb3f17aee756da3a5f1e5',1,'CairoInterpreter001::handlePath()']]],
+  ['handlepattern_215',['handlePattern',['../class_cairo_interpreter.html#a1d378dc4c3a330c0396c26ee65324569',1,'CairoInterpreter::handlePattern()'],['../class_cairo_interpreter001.html#ac0b30ac1d6d0d7a918e6db046dcc1196',1,'CairoInterpreter001::handlePattern()']]]
 ];

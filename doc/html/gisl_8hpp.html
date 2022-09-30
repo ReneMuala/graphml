@@ -82,7 +82,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacegisl"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html">gisl</a></td></tr>
-<tr class="memdesc:namespacegisl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Graphml immediate scrip language handler. Used to handle gisl instructions passed to graphml properties. <br /></td></tr>
+<tr class="memdesc:namespacegisl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Graphml immediate script language handler. Used to handle gisl instructions passed to graphml properties. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -90,31 +90,45 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a85f5fb63e3917ed84e1cd30360341179"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179">gisl::InstructionType</a> { <br />
 &#160;&#160;<a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179ae02141090c7d23819ccdbeb9fa605c48">gisl::Arithmetic</a>
 , <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179aa36116d52600eb9ab2f94403a2f48e64">gisl::Logic</a>
-, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a64e74302ea1777aad4a25c7d712b1e30">gisl::Set</a>
-, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179ab45fb1b844a14e23fcb2f9ac9a524485">gisl::Get</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179ae9a334687acca7de1c6702b1e8653bf5">gisl::LibMath</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a1f8606b0fc47b30337dddf28dbaa52f1">gisl::Loop</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179aeba52ab4cef91e969120a8e8f6ba3dd1">gisl::None</a>
+&#160;&#160;<a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a64e74302ea1777aad4a25c7d712b1e30">gisl::Set</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179ab45fb1b844a14e23fcb2f9ac9a524485">gisl::Get</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a86bade06ae13bbb82f1d1c94677949e6">gisl::Color</a>
+, <a class="el" href="namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179aeba52ab4cef91e969120a8e8f6ba3dd1">gisl::None</a>
 <br />
  }</td></tr>
 <tr class="separator:a85f5fb63e3917ed84e1cd30360341179"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a064159ada436f151059a7d18239679df"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a064159ada436f151059a7d18239679df">gisl::getSet</a> (std::string expression)</td></tr>
-<tr class="memdesc:a064159ada436f151059a7d18239679df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the values of a simple set.  <a href="namespacegisl.html#a064159ada436f151059a7d18239679df">More...</a><br /></td></tr>
-<tr class="separator:a064159ada436f151059a7d18239679df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2db5596a70b0c5c347f777845813113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#af2db5596a70b0c5c347f777845813113">gisl::init</a> ()</td></tr>
+<tr class="separator:af2db5596a70b0c5c347f777845813113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaf3273ababb35d877d1570332888f74"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#acaf3273ababb35d877d1570332888f74">gisl::getSet</a> (std::string expression, int maxSize=-1)</td></tr>
+<tr class="memdesc:acaf3273ababb35d877d1570332888f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the values of a simple set.  <a href="namespacegisl.html#acaf3273ababb35d877d1570332888f74">More...</a><br /></td></tr>
+<tr class="separator:acaf3273ababb35d877d1570332888f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44a05569deefcb36214129eaaba62c69"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a44a05569deefcb36214129eaaba62c69">gisl::evaluateAtomicArithmeticExpression</a> (std::string expression)</td></tr>
 <tr class="memdesc:a44a05569deefcb36214129eaaba62c69"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a single arithmetic expression.  <a href="namespacegisl.html#a44a05569deefcb36214129eaaba62c69">More...</a><br /></td></tr>
 <tr class="separator:a44a05569deefcb36214129eaaba62c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a613f838e6b53b27751aaaf6363107de4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a613f838e6b53b27751aaaf6363107de4">gisl::evaluateAtomicColorExpression</a> (std::string expression)</td></tr>
+<tr class="memdesc:a613f838e6b53b27751aaaf6363107de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a single color expression.  <a href="namespacegisl.html#a613f838e6b53b27751aaaf6363107de4">More...</a><br /></td></tr>
+<tr class="separator:a613f838e6b53b27751aaaf6363107de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31bc4d7dc5bc0089f2698d8931c5c7d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a31bc4d7dc5bc0089f2698d8931c5c7d2">gisl::evaluateAtomicLogicExpression</a> (std::string expression)</td></tr>
 <tr class="memdesc:a31bc4d7dc5bc0089f2698d8931c5c7d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a single logic expression.  <a href="namespacegisl.html#a31bc4d7dc5bc0089f2698d8931c5c7d2">More...</a><br /></td></tr>
 <tr class="separator:a31bc4d7dc5bc0089f2698d8931c5c7d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfe3a98fad34a508792ef67f89dab38a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#abfe3a98fad34a508792ef67f89dab38a">gisl::evaluateAtomicLibMathExpression</a> (std::string expression)</td></tr>
+<tr class="memdesc:abfe3a98fad34a508792ef67f89dab38a"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a single trigonometric expression.  <a href="namespacegisl.html#abfe3a98fad34a508792ef67f89dab38a">More...</a><br /></td></tr>
+<tr class="separator:abfe3a98fad34a508792ef67f89dab38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba79287a1c1e2c96c92a2a0109648b85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#aba79287a1c1e2c96c92a2a0109648b85">gisl::evaluateSet</a> (std::string expression)</td></tr>
 <tr class="memdesc:aba79287a1c1e2c96c92a2a0109648b85"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a set expression.  <a href="namespacegisl.html#aba79287a1c1e2c96c92a2a0109648b85">More...</a><br /></td></tr>
 <tr class="separator:aba79287a1c1e2c96c92a2a0109648b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bdfd1baf4851c1578eb33365581e188"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a5bdfd1baf4851c1578eb33365581e188">gisl::evaluateGet</a> (std::string expression)</td></tr>
 <tr class="memdesc:a5bdfd1baf4851c1578eb33365581e188"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a get expression.  <a href="namespacegisl.html#a5bdfd1baf4851c1578eb33365581e188">More...</a><br /></td></tr>
 <tr class="separator:a5bdfd1baf4851c1578eb33365581e188"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2ab54cfd8578f97171f6ef0ec677256"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#ad2ab54cfd8578f97171f6ef0ec677256">gisl::evaluateLoop</a> (std::string expression)</td></tr>
+<tr class="memdesc:ad2ab54cfd8578f97171f6ef0ec677256"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a loop expression.  <a href="namespacegisl.html#ad2ab54cfd8578f97171f6ef0ec677256">More...</a><br /></td></tr>
+<tr class="separator:ad2ab54cfd8578f97171f6ef0ec677256"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7588fd15f14a2655f8aa25dfa6792d05"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegisl.html#a7588fd15f14a2655f8aa25dfa6792d05">gisl::evaluateExpression</a> (std::string expression)</td></tr>
 <tr class="memdesc:a7588fd15f14a2655f8aa25dfa6792d05"><td class="mdescLeft">&#160;</td><td class="mdescRight">evaluates a set of arithmetic expressions.  <a href="namespacegisl.html#a7588fd15f14a2655f8aa25dfa6792d05">More...</a><br /></td></tr>
 <tr class="separator:a7588fd15f14a2655f8aa25dfa6792d05"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -18,14 +18,12 @@
         <line x="50%" y="50%"/>
         <line x="0%" y="100%"/>
     </path>
-
     <path id="caminho2">
         <move x="100%" y="0%"/>
         <line x="50%" y="50%"/>
         <line x="100%" y="100%"/>
     </path>
-    <import id= "image1" filename="helloworld2.png"/>
-    <img id="img1" w="800" h="800">
+    <img w="800" h="800">
         <paint gradient="grad3"/>
         <translate x="50%" y="50%">
         <scale x="2" y="2">
@@ -79,16 +77,4 @@
         </translate>
         <export filename="helloworld.png"/>
     </img>
-    <img w="800" h="800">
-        <arc center="50%,50%" radius="40%" begin="0" end="rad(360)">
-            <stroke width="20%" image="img1"/>
-        </arc>
-        <scale x="0.8" y="0.8">
-            <arc center="62%,60%" radius="20%" begin="0" end="rad(360)">
-                <fill image="image1"/>
-            </arc>
-        </scale>
-        <export filename="helloworld1.png"/>
-    </img>
 </graphml>
-

@@ -65,7 +65,6 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#pro-static-attribs">Static Protected Attributes</a> &#124;
 <a href="class_cairo_interpreter-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">CairoInterpreter Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -91,40 +90,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2fe2aca5c2de586a1cb423a05506786f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#a2fe2aca5c2de586a1cb423a05506786f">CairoInterpreter</a> (<a class="el" href="class_parser.html">Parser</a> &amp;<a class="el" href="class_cairo_interpreter.html#af97192b20f6249eb912d3356fcc8b537">parser</a>)</td></tr>
 <tr class="memdesc:a2fe2aca5c2de586a1cb423a05506786f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new Cairo interpreter.  <a href="class_cairo_interpreter.html#a2fe2aca5c2de586a1cb423a05506786f">More...</a><br /></td></tr>
 <tr class="separator:a2fe2aca5c2de586a1cb423a05506786f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf5dafea45cab9886f62bd00ebb75f8a"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#acf5dafea45cab9886f62bd00ebb75f8a">parseNumericExpression</a> (std::string)=0</td></tr>
-<tr class="separator:acf5dafea45cab9886f62bd00ebb75f8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa87ac2c6fd920bc0128259ab459e72d2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#aa87ac2c6fd920bc0128259ab459e72d2">main</a> ()=0</td></tr>
 <tr class="separator:aa87ac2c6fd920bc0128259ab459e72d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cd4de1ddf73927e4c2ea0ca4b8a18b4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#a3cd4de1ddf73927e4c2ea0ca4b8a18b4">handleGradient</a> ()=0</td></tr>
 <tr class="separator:a3cd4de1ddf73927e4c2ea0ca4b8a18b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9fc4db981fd78ae2206693222a86c63"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#ab9fc4db981fd78ae2206693222a86c63">handleLinearGradient</a> ()=0</td></tr>
-<tr class="separator:ab9fc4db981fd78ae2206693222a86c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af152df26b3ef03e847db1b05a8960b03"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#af152df26b3ef03e847db1b05a8960b03">handleRadialGradient</a> ()=0</td></tr>
-<tr class="separator:af152df26b3ef03e847db1b05a8960b03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d378dc4c3a330c0396c26ee65324569"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#a1d378dc4c3a330c0396c26ee65324569">handlePattern</a> ()=0</td></tr>
 <tr class="separator:a1d378dc4c3a330c0396c26ee65324569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db4a5a05d6bbea627b563daf53d7f8d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#a7db4a5a05d6bbea627b563daf53d7f8d">handlePath</a> ()=0</td></tr>
+<tr class="separator:a7db4a5a05d6bbea627b563daf53d7f8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac79b30ca541f7e22cf1c8f7abc91ad4f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#ac79b30ca541f7e22cf1c8f7abc91ad4f">handleImage</a> ()=0</td></tr>
 <tr class="separator:ac79b30ca541f7e22cf1c8f7abc91ad4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78f1254ff6650f75b651d41c368b37ea"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#a78f1254ff6650f75b651d41c368b37ea">handleFont</a> ()=0</td></tr>
 <tr class="separator:a78f1254ff6650f75b651d41c368b37ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f48c7c39ff7dac3f45515d04cc65902"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#a1f48c7c39ff7dac3f45515d04cc65902">pushGroup</a> ()=0</td></tr>
-<tr class="separator:a1f48c7c39ff7dac3f45515d04cc65902"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb91a9e83768d701d9e78be7ba61268c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#aeb91a9e83768d701d9e78be7ba61268c">pushPop</a> ()=0</td></tr>
-<tr class="separator:aeb91a9e83768d701d9e78be7ba61268c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:af97192b20f6249eb912d3356fcc8b537"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#af97192b20f6249eb912d3356fcc8b537">parser</a></td></tr>
 <tr class="separator:af97192b20f6249eb912d3356fcc8b537"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
-Static Protected Attributes</h2></td></tr>
-<tr class="memitem:ab25dee4b5147824fc2e8fe99e72c7534"><td class="memItemLeft" align="right" valign="top">static const std::regex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#ab25dee4b5147824fc2e8fe99e72c7534">gradientRegex</a> = std::regex(&quot;(gradient)|(grad)&quot;, std::regex::icase)</td></tr>
-<tr class="separator:ab25dee4b5147824fc2e8fe99e72c7534"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92f3905d109e347ee6d912a831964f93"><td class="memItemLeft" align="right" valign="top">static const std::regex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#a92f3905d109e347ee6d912a831964f93">linearGradientRegex</a></td></tr>
-<tr class="separator:a92f3905d109e347ee6d912a831964f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38e5a6134ce4973658f7a1cd00bcbe90"><td class="memItemLeft" align="right" valign="top">static const std::regex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cairo_interpreter.html#a38e5a6134ce4973658f7a1cd00bcbe90">radialGradientRegex</a></td></tr>
-<tr class="separator:a38e5a6134ce4973658f7a1cd00bcbe90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Cairo interpreters abstract class. </p>
@@ -233,12 +215,12 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_cairo_interpreter001.html#a7b0da4c2ce3b0ae4b33d858e1ca8c5ab">CairoInterpreter001</a>.</p>
+<p>Implemented in <a class="el" href="class_cairo_interpreter001.html#aa06baf78240025fd5a9318be0cdc643e">CairoInterpreter001</a>.</p>
 
 </div>
 </div>
-<a id="ab9fc4db981fd78ae2206693222a86c63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9fc4db981fd78ae2206693222a86c63">&#9670;&nbsp;</a></span>handleLinearGradient()</h2>
+<a id="a7db4a5a05d6bbea627b563daf53d7f8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7db4a5a05d6bbea627b563daf53d7f8d">&#9670;&nbsp;</a></span>handlePath()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -247,7 +229,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void CairoInterpreter::handleLinearGradient </td>
+          <td class="memname">virtual void CairoInterpreter::handlePath </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -260,7 +242,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_cairo_interpreter001.html#a64e61cb30ec5617b592a3dd61cf3cde7">CairoInterpreter001</a>.</p>
+<p>Implemented in <a class="el" href="class_cairo_interpreter001.html#a19c083e09a8eb3f17aee756da3a5f1e5">CairoInterpreter001</a>.</p>
 
 </div>
 </div>
@@ -291,33 +273,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af152df26b3ef03e847db1b05a8960b03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af152df26b3ef03e847db1b05a8960b03">&#9670;&nbsp;</a></span>handleRadialGradient()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void CairoInterpreter::handleRadialGradient </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="class_cairo_interpreter001.html#aa9940a239cb15ad9d3fb50cb63ec4725">CairoInterpreter001</a>.</p>
-
-</div>
-</div>
 <a id="aa87ac2c6fd920bc0128259ab459e72d2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa87ac2c6fd920bc0128259ab459e72d2">&#9670;&nbsp;</a></span>main()</h2>
 
@@ -345,133 +300,7 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="acf5dafea45cab9886f62bd00ebb75f8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf5dafea45cab9886f62bd00ebb75f8a">&#9670;&nbsp;</a></span>parseNumericExpression()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual double CairoInterpreter::parseNumericExpression </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="class_cairo_interpreter001.html#a3c8fdfdccb3ce298b4628f2ec47e167c">CairoInterpreter001</a>.</p>
-
-</div>
-</div>
-<a id="a1f48c7c39ff7dac3f45515d04cc65902"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f48c7c39ff7dac3f45515d04cc65902">&#9670;&nbsp;</a></span>pushGroup()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void CairoInterpreter::pushGroup </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="class_cairo_interpreter001.html#a558af8e188be0bdab7e35e3b298eb054">CairoInterpreter001</a>.</p>
-
-</div>
-</div>
-<a id="aeb91a9e83768d701d9e78be7ba61268c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb91a9e83768d701d9e78be7ba61268c">&#9670;&nbsp;</a></span>pushPop()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void CairoInterpreter::pushPop </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="class_cairo_interpreter001.html#a44af03d742e3c505b22ef6a632681086">CairoInterpreter001</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ab25dee4b5147824fc2e8fe99e72c7534"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab25dee4b5147824fc2e8fe99e72c7534">&#9670;&nbsp;</a></span>gradientRegex</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::regex CairoInterpreter::gradientRegex = std::regex(&quot;(gradient)|(grad)&quot;, std::regex::icase)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a92f3905d109e347ee6d912a831964f93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92f3905d109e347ee6d912a831964f93">&#9670;&nbsp;</a></span>linearGradientRegex</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::regex CairoInterpreter::linearGradientRegex</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="af97192b20f6249eb912d3356fcc8b537"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af97192b20f6249eb912d3356fcc8b537">&#9670;&nbsp;</a></span>parser</h2>
 
@@ -488,28 +317,6 @@ Static Protected Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a38e5a6134ce4973658f7a1cd00bcbe90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38e5a6134ce4973658f7a1cd00bcbe90">&#9670;&nbsp;</a></span>radialGradientRegex</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::regex CairoInterpreter::radialGradientRegex</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

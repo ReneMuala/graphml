@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['set_142',['Set',['../namespacegisl.html#a85f5fb63e3917ed84e1cd30360341179a64e74302ea1777aad4a25c7d712b1e30',1,'gisl']]]
+  ['parent_272',['PARENT',['../class_parser.html#a2f1adb4ae3371eb7f37aeb0bee1414aba5192b93637d3559f18ef50645fe092e8',1,'Parser']]],
+  ['prev_273',['PREV',['../class_parser.html#a2f1adb4ae3371eb7f37aeb0bee1414abadca06be654e3ea7be8b4d438bb935ac0',1,'Parser']]]
 ];

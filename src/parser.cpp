@@ -45,7 +45,7 @@ std::string Parser::getRequiredAttribute(std::string elementName, long elementLi
             return value;
         }
     } 
-    gmlCheck(optional, gmlWarn,__FUNCTION__,__FILE__, __LINE__, ("Unable to get required attribute " + std::string(attributeName) + " for element: " + std::string(elementName) + " graphml line:" + std::to_string(elementLine)).c_str());
+    gmlCheck(optional, gmlWarn,__FUNCTION__,__FILE__, __LINE__, ("Unable to get required attribute \"" + std::string(attributeName) + "\" for element: \"" + std::string(elementName) + "\" graphml line:" + std::to_string(elementLine)).c_str());
     return "";
 }
 

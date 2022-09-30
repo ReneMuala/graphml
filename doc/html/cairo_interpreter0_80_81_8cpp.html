@@ -75,26 +75,324 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="cairo_interpreter0_80_81_8hpp_source.html">cairoInterpreter0.0.1.hpp</a>&quot;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;regex&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="operators_8hpp_source.html">operators.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="gisl_8hpp_source.html">gisl.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="error_8hpp_source.html">error.hpp</a>&quot;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aed9a4c6a97de926131db5d244539ce7f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#aed9a4c6a97de926131db5d244539ce7f">getNumbers</a> (std::string str)</td></tr>
-<tr class="separator:aed9a4c6a97de926131db5d244539ce7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a5bb7d3a156d067a75facf69fa26c3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#a72a5bb7d3a156d067a75facf69fa26c3">getVerifiedSingleRelativeValue</a> (std::string valueName, double &amp;value, std::vector&lt; double &gt; valueSet, <a class="el" href="class_parser.html">Parser</a> &amp;parser, bool checkValue=true)</td></tr>
+<tr class="separator:a72a5bb7d3a156d067a75facf69fa26c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5748d9725dcd1e9bc82014f3a4aeadf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#aa5748d9725dcd1e9bc82014f3a4aeadf">verifyPathMode</a> (std::string mode, <a class="el" href="class_parser.html">Parser</a> &amp;parser)</td></tr>
+<tr class="separator:aa5748d9725dcd1e9bc82014f3a4aeadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ada4540b7822dc5805180ab1d3aea98"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#a2ada4540b7822dc5805180ab1d3aea98">getVerifiedSingleRelativePoint</a> (std::string pointName, std::vector&lt; double &gt; &amp;point, std::vector&lt; double &gt; valueSet, <a class="el" href="class_parser.html">Parser</a> &amp;parser)</td></tr>
+<tr class="separator:a2ada4540b7822dc5805180ab1d3aea98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bcd7d253cbab8714d80fb51bd3e94b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#a2bcd7d253cbab8714d80fb51bd3e94b4">verifyBeginArgNum</a> (int argNum, <a class="el" href="class_cairo_interpreter001.html#a9a0bf3ae54f705b0b23c3a52604e56a6">CairoInterpreter001::GradientType</a> type, <a class="el" href="class_parser.html">Parser</a> &amp;parser)</td></tr>
+<tr class="separator:a2bcd7d253cbab8714d80fb51bd3e94b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b1ffe5bbd45bb5d9032a2babc2e299a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#a1b1ffe5bbd45bb5d9032a2babc2e299a">verifyEndArgNum</a> (int argNum, <a class="el" href="class_cairo_interpreter001.html#a9a0bf3ae54f705b0b23c3a52604e56a6">CairoInterpreter001::GradientType</a> type, <a class="el" href="class_parser.html">Parser</a> &amp;parser)</td></tr>
+<tr class="separator:a1b1ffe5bbd45bb5d9032a2babc2e299a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf7f6cef360926dd65ad8fa238ff09d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#aaf7f6cef360926dd65ad8fa238ff09d5">verifyColorStopStep</a> (std::vector&lt; double &gt; colorStopStep, <a class="el" href="class_parser.html">Parser</a> &amp;parser)</td></tr>
+<tr class="separator:aaf7f6cef360926dd65ad8fa238ff09d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad677d655f0834726874e789c0cb7351"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#aad677d655f0834726874e789c0cb7351">verifyColor</a> (std::vector&lt; double &gt; color, <a class="el" href="class_parser.html">Parser</a> &amp;parser)</td></tr>
+<tr class="separator:aad677d655f0834726874e789c0cb7351"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef7696b5f6105f389926ed99dfed300c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_cairo_interpreter001.html#a9a0bf3ae54f705b0b23c3a52604e56a6">CairoInterpreter001::GradientType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#aef7696b5f6105f389926ed99dfed300c">getGradientType</a> (std::string typeStr)</td></tr>
+<tr class="separator:aef7696b5f6105f389926ed99dfed300c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f11be8e3e28f95dfa62f33619faea47"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cairo_interpreter0_80_81_8cpp.html#a3f11be8e3e28f95dfa62f33619faea47">getVerifiedImageSide</a> (const char *sideName, double &amp;side, std::vector&lt; double &gt; attributeSet, <a class="el" href="class_parser.html">Parser</a> &amp;parser)</td></tr>
+<tr class="separator:a3f11be8e3e28f95dfa62f33619faea47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aed9a4c6a97de926131db5d244539ce7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed9a4c6a97de926131db5d244539ce7f">&#9670;&nbsp;</a></span>getNumbers()</h2>
+<a id="aef7696b5f6105f389926ed99dfed300c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef7696b5f6105f389926ed99dfed300c">&#9670;&nbsp;</a></span>getGradientType()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;double&gt; getNumbers </td>
+          <td class="memname"><a class="el" href="class_cairo_interpreter001.html#a9a0bf3ae54f705b0b23c3a52604e56a6">CairoInterpreter001::GradientType</a> getGradientType </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>str</em></td><td>)</td>
+          <td class="paramname"><em>typeStr</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3f11be8e3e28f95dfa62f33619faea47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f11be8e3e28f95dfa62f33619faea47">&#9670;&nbsp;</a></span>getVerifiedImageSide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool getVerifiedImageSide </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>sideName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>side</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>attributeSet</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ada4540b7822dc5805180ab1d3aea98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ada4540b7822dc5805180ab1d3aea98">&#9670;&nbsp;</a></span>getVerifiedSingleRelativePoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool getVerifiedSingleRelativePoint </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>pointName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>point</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>valueSet</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a72a5bb7d3a156d067a75facf69fa26c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72a5bb7d3a156d067a75facf69fa26c3">&#9670;&nbsp;</a></span>getVerifiedSingleRelativeValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool getVerifiedSingleRelativeValue </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>valueName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>valueSet</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>checkValue</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2bcd7d253cbab8714d80fb51bd3e94b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bcd7d253cbab8714d80fb51bd3e94b4">&#9670;&nbsp;</a></span>verifyBeginArgNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool verifyBeginArgNum </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argNum</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_cairo_interpreter001.html#a9a0bf3ae54f705b0b23c3a52604e56a6">CairoInterpreter001::GradientType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aad677d655f0834726874e789c0cb7351"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad677d655f0834726874e789c0cb7351">&#9670;&nbsp;</a></span>verifyColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool verifyColor </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaf7f6cef360926dd65ad8fa238ff09d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf7f6cef360926dd65ad8fa238ff09d5">&#9670;&nbsp;</a></span>verifyColorStopStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool verifyColorStopStep </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
+          <td class="paramname"><em>colorStopStep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b1ffe5bbd45bb5d9032a2babc2e299a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b1ffe5bbd45bb5d9032a2babc2e299a">&#9670;&nbsp;</a></span>verifyEndArgNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool verifyEndArgNum </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argNum</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_cairo_interpreter001.html#a9a0bf3ae54f705b0b23c3a52604e56a6">CairoInterpreter001::GradientType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa5748d9725dcd1e9bc82014f3a4aeadf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5748d9725dcd1e9bc82014f3a4aeadf">&#9670;&nbsp;</a></span>verifyPathMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool verifyPathMode </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_parser.html">Parser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

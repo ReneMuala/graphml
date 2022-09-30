@@ -48,6 +48,8 @@ private:
 
     double current_device_width , current_device_height;
 
+    bool first_path_element, apply_main_show_logs;
+
     /**
      * @brief Stores the apply current apply stack size;
      */
@@ -57,7 +59,7 @@ private:
     
     CairoInterpreter001(Parser & parser);
     ~CairoInterpreter001();
-    
+
     void addGradient(std::string id, cairo_pattern_t * gradient);
     cairo_pattern_t * getGradientById(std::string id);
     std::pair<cairo_t *, cairo_surface_t *>* getImageByid(std::string id);
