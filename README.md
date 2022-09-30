@@ -19,3 +19,13 @@ A new way to create images
 ```
 
 ![image.png](./image.png)
+
+## building
+
+1. install clang, gnu make, libxml2 and libcairo (doxygen is optional)
+2. __(optional)__ create an alias or symbolic link to "libxml2/libxml" named "libxml" at the include directory ("usr/include/" on most linux distros, by using "ln -s libxml2/libxml libxml") in case of having libxml2 header file errors...
+3. compile my running __make__ at the projects root folder
+
+## using
+
+The graphml binary wil be compiled and saved to de [build/](/build/) folder

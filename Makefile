@@ -5,6 +5,9 @@ linker:="g++"
 cppVersion:="c++17"
 buildDir:="build"
 
+warn:
+	@echo its recomended to create an alias to libxml2/libxml as libxml (by using "ln -s libxml2/libxml libxml" on linux like systems) to avoid errors from libxml2 header files.
+
 compile: compileOperators compileError compileParser compileCairoInterpreter compileCairoInterpreter001 compileGisl compileMain
 
 compileOperators:
