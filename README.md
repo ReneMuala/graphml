@@ -30,6 +30,10 @@ A new way to create images
 
 The graphml binary wil be compiled and saved to de [build/](/build/) folder
 
+## documentation
+
+___cheat sheet___ (https://github.com/renemuala/graphml-cheat-sheet)
+
 ### some outputs
 
 1. Various arcs
