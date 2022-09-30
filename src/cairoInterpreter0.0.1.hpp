@@ -77,8 +77,8 @@ private:
     void applyArc(cairo_t * cr);
     void applyMain(cairo_t * cr, xmlNode* cur);
 
-    bool strokeSetLineCap(cairo_t * cr,  cairo_line_cap_t & cap,std::unordered_map<std::__1::string, std::__1::string> &attributeSet);
-    bool strokeSetLineJoin(cairo_t * cr,  cairo_line_join_t & join, std::unordered_map<std::__1::string, std::__1::string> &attributeSet);
+    bool strokeSetLineCap(cairo_t * cr,  cairo_line_cap_t & cap,std::unordered_map<std::string, std::string> &attributeSet);
+    bool strokeSetLineJoin(cairo_t * cr,  cairo_line_join_t & join, std::unordered_map<std::string, std::string> &attributeSet);
     void clearDrawEventStack();
 
     void imageMain(cairo_t * cr);

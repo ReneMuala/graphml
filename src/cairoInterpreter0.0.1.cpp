@@ -357,7 +357,7 @@ void CairoInterpreter001::applyMain(cairo_t * cr, xmlNode* cur){
     parser.cur = curAux;
 }
 
-bool CairoInterpreter001::strokeSetLineCap(cairo_t * cr, cairo_line_cap_t & cap, std::unordered_map<std::__1::string, std::__1::string> &attributeSet){
+bool CairoInterpreter001::strokeSetLineCap(cairo_t * cr, cairo_line_cap_t & cap, std::unordered_map<std::string, std::string> &attributeSet){
     bool statusOk = true;
     std::string capMode;
     static const std::regex supportedCapModes = std::regex("(|BUTT|ROUND|SQUARE)", std::regex::icase);
@@ -381,7 +381,7 @@ bool CairoInterpreter001::strokeSetLineCap(cairo_t * cr, cairo_line_cap_t & cap,
     } return statusOk;
 }
 
-bool CairoInterpreter001::strokeSetLineJoin(cairo_t * cr,  cairo_line_join_t & join, std::unordered_map<std::__1::string, std::__1::string> &attributeSet){
+bool CairoInterpreter001::strokeSetLineJoin(cairo_t * cr,  cairo_line_join_t & join, std::unordered_map<std::string, std::string> &attributeSet){
     bool statusOk = true;
     std::string joinMode;
     static const std::regex supportedJoinModes = std::regex("(|BEVEL|ROUND|MITER)", std::regex::icase);
@@ -890,7 +890,7 @@ void CairoInterpreter001::handleImage(){
             parser.getNodeLink(Parser::NodeLink::PARENT);
         }
         if(!id.empty()) {
-            addImage(id, std::__1::pair<cairo_t *, cairo_surface_t *> {cr, image});
+            addImage(id, std::pair<cairo_t *, cairo_surface_t *> {cr, image});
         }
     }
 }
