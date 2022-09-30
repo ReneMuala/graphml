@@ -22,13 +22,13 @@ A new way to create images
 
 ## building
 
-1. install clang, gnu make, libxml2 and libcairo (doxygen is optional)
+1. install clang, gnu make, libxml2 and libcairo (doxygen is optional).
 2. __(optional)__ create an alias or symbolic link to "libxml2/libxml" named "libxml" at the include directory ("usr/include/" on most linux distros, by using "ln -s libxml2/libxml libxml") in case of having libxml2 header file errors...
-3. compile my running __make__ at the projects root folder
+3. compile by running __make__ at the project's root folder.
 
 ## using
 
-The graphml binary wil be compiled and saved to de [build/](/build/) folder
+The graphml binary wil be compiled and saved to de [build/](/build/) folder.
 
 ## documentation
 
@@ -36,7 +36,7 @@ ___cheat sheet___ (https://github.com/renemuala/graphml-cheat-sheet)
 
 ### some outputs
 
-1. Various arcs
+1. Arcs
 ![arcs](./helloworld.png)
 
 2. Smile
