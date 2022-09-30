@@ -29,3 +29,14 @@ A new way to create images
 ## using
 
 The graphml binary wil be compiled and saved to de [build/](/build/) folder
+
+### some outputs
+
+1. Various arcs
+![arcs](./helloworld.png)
+
+2. Smile
+![face](./helloworld2.png)
+
+3. arc and smile composition
+![arc&face](/helloworld1.png)
