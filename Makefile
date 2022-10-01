@@ -45,5 +45,6 @@ linkMain:
 installMacOS:
 	cp build/graphml /usr/local/bin/
 
+
 installLinux:
 	cp build/graphml /usr/bin/
