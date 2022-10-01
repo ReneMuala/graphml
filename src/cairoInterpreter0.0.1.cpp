@@ -5,7 +5,6 @@
 #include "operators.hpp"
 #include "gisl.hpp"
 #include "error.hpp"
-#include <optional>
 
 static const std::regex gradientRegex = std::regex("(gradient)|(grad)", std::regex::icase);
 
@@ -613,10 +612,10 @@ void CairoInterpreter001::handleImageFill(cairo_t * cr){
 
     if(handleImageDrawArguments(cr)){
         if (!strcmp(mode.c_str(), "normal") || mode.empty()){
-            drawEventStack.push(std::pair<DrawEvent, std::optional<StrokeProperties>>{Fill, {}});
+            drawEventStack.push(std::pair<DrawEvent, Optional<StrokeProperties>>{Fill, Optional<StrokeProperties>()});
             cairo_fill(cr);
         } else if (!strcmp(mode.c_str(), "preserve")){
-            drawEventStack.push(std::pair<DrawEvent, std::optional<StrokeProperties>>{FillPreserve, {}});        
+            drawEventStack.push(std::pair<DrawEvent, Optional<StrokeProperties>>{FillPreserve, Optional<StrokeProperties>()});        
             cairo_fill_preserve(cr);
         } else {
             gmlWarn(__FUNCTION__, __FILE__, __LINE__, ("\n--> unknown fill:mode \"" + mode + "\" expected \"normal\" or \"preserve\". graphml line: " + std::to_string(parser.getXmlNodeLine())).c_str());
@@ -741,10 +740,10 @@ void CairoInterpreter001::handleImageApply(cairo_t * cr){
                 break;
             case StrokePreserve:
             case Stroke:
-                if(drawEventStack.top().second.has_value()){
-                    cairo_set_line_join(cr, drawEventStack.top().second->join);
-                    cairo_set_line_cap(cr, drawEventStack.top().second->cap);
-                    cairo_set_line_width(cr, drawEventStack.top().second->lineWidth);
+                if(drawEventStack.top().second.hasValue()){
+                    cairo_set_line_join(cr, drawEventStack.top().second.getValue()->join);
+                    cairo_set_line_cap(cr, drawEventStack.top().second.getValue()->cap);
+                    cairo_set_line_width(cr, drawEventStack.top().second.getValue()->lineWidth);
                 }
                 cairo_stroke(cr);
                 break;

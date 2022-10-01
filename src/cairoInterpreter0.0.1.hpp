@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <vector>
 #include <stack>
+#include "optional.cc"
 
 /**
  * @brief First generation cairo interpreter.
@@ -44,7 +45,7 @@ private:
     std::unordered_map<std::string /* id */, std::pair<cairo_t *, cairo_surface_t *>> images;
     std::unordered_map<std::string /* id */, cairo_pattern_t *> gradients;
     std::unordered_map<std::string /* id */, xmlNode*> paths;
-    std::stack<std::pair<DrawEvent, std::optional<StrokeProperties> /* line width ? >*/>> drawEventStack;
+    std::stack<std::pair<DrawEvent, Optional<StrokeProperties>>> drawEventStack;
 
     double current_device_width , current_device_height;
 
