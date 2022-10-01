@@ -446,11 +446,15 @@ void CairoInterpreter001::handleImageText(cairo_t * cr){
     std::string value, font;
     cairo_font_slant_t slant;
     cairo_font_weight_t weight;
+    cairo_text_extents_t text_extents;
+    cairo_font_extents_t font_extents;
     
     if(getTextData(x, y, size,slant, weight, value, font)){
         cairo_set_font_size(cr, size);
+        cairo_font_extents(cr, &font_extents);
+        cairo_text_extents(cr,font.c_str(), &text_extents);
         cairo_select_font_face(cr, font.c_str(), slant, weight);
-        cairo_move_to(cr,x,y);
+        cairo_move_to(cr,x, y+font_extents.ascent);
         cairo_text_path(cr,value.c_str());
         cairo_push_group(cr);
         if(parser.nodeHasLink(Parser::NodeLink::CHILDREN)){
@@ -461,7 +465,7 @@ void CairoInterpreter001::handleImageText(cairo_t * cr){
         cairo_pop_group_to_source(cr);
         cairo_set_font_size(cr, size);
         cairo_select_font_face(cr,font.c_str(), slant, weight);
-        cairo_move_to(cr,x,y);
+        cairo_move_to(cr,x, y+font_extents.ascent);
         cairo_text_path(cr,value.c_str());
         cairo_fill(cr);
     }

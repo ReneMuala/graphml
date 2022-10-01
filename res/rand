@@ -291,3 +291,34 @@
 
 
 
+<graphml>
+<gradient id="grad3" type="radial" begin="50% , 50% , 1%" end="50%,50%,30%">
+        <colorstop step="20%" color="rgb(105,40,105)" />
+        <colorstop step="100%" color="rgb(0,40,105)" />
+    </gradient>
+    <import id="img" filename="helloworld.png" /> 
+   <img w="800" h="800">
+       <!-- <paint color="rgb(0,0,0)" />
+       <rect x="10%" y="10%" w="80%" h="80%">
+           <fill color="rgb(50, 120, 255)"/>
+           <arc center="90%,90%" radius="60%"
+           begin="0" end="rad(360)">
+               <fill color="rgb(255,255,255)"/>
+           </arc>
+        </rect> -->
+        <paint image="img"/>
+        <rect x="set(sx,90%)get(sx)" y="0" w="-(100%,get(sx))" h="100%">
+            <paint color="rgb(240,240,240)"/>
+            <translate x="get(sx)" y="95%">
+                <rotate rad="neg(rad(90))">
+                    <textstr value="GRAPHML" x="0%" y="0%" font="mono" size="-(100%,get(sx))">
+                        <fill image="img"/>
+                        <!-- <fill color="[3]{0}"/>  -->
+                    </textstr>
+                </rotate>
+            </translate>
+        </rect>
+
+       <export filename="image2.png"/>
+   </img>
+</graphml>
