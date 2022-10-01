@@ -28,7 +28,7 @@ A new way to create images
 
 ## using
 
-The graphml binary wil be compiled and saved to de [build/](/build/) folder.
+The graphml binary wil be compiled and saved to the [build/](/build/) folder.
 
 ## documentation
 
