@@ -3,6 +3,7 @@
 #include "parser.hpp"
 #include <regex>
 #include <vector>
+#include <string>
 
 /**
  * @brief Cairo interpreters abstract class 
