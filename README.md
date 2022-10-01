@@ -44,3 +44,6 @@ ___cheat sheet___ (https://github.com/renemuala/graphml-cheat-sheet)
 
 3. arc and smile composition
 ![arc&face](/helloworld1.png)
+
+4. Arcs and text (expermimental)
+![arc&text](/image2.png)
