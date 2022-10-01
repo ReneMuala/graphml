@@ -7,6 +7,7 @@
 #include <vector>
 #include <stack>
 #include "optional.cc"
+#include <math.h>
 
 /**
  * @brief First generation cairo interpreter.
