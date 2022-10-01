@@ -4,6 +4,7 @@
 #include <regex>
 #include <vector>
 #include <string>
+#include <cstring>
 
 /**
  * @brief Cairo interpreters abstract class 
