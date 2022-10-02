@@ -3,6 +3,7 @@
 A new way to create images
 
 ```
+<!DOCTYPE graphml SYSTEM "doctype/graphml0.0.1.dtd">
 <graphml>
    <img w="400" h="400">
        <paint color="rgb(0,0,0)" />

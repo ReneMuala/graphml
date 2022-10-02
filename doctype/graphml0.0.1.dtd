@@ -1,0 +1,78 @@
+<!ELEMENT graphml ((path|gradient|import|img)*)>
+<!ATTLIST graphml version (0.0.1|latest) #IMPLIED>
+<!ATTLIST graphml engine (cairo|default) #IMPLIED>
+<!ELEMENT path (move*,line*,curve*,arc*,rect*,close*)>
+<!ATTLIST path id ID #REQUIRED>
+<!ELEMENT move EMPTY>
+<!ATTLIST move x CDATA #REQUIRED>
+<!ATTLIST move y CDATA #REQUIRED>
+<!ELEMENT line EMPTY>
+<!ATTLIST line x CDATA #REQUIRED>
+<!ATTLIST line y CDATA #REQUIRED>
+<!ATTLIST line mode (relative|normal) #IMPLIED>
+<!ELEMENT curve EMPTY>
+<!ATTLIST curve begin CDATA #REQUIRED>
+<!ATTLIST curve middle CDATA #REQUIRED>
+<!ATTLIST curve end CDATA #REQUIRED>
+<!ATTLIST curve mode (relative|normal) #IMPLIED>
+<!ELEMENT arc ((arc|rect|paint|fill|stroke|translate|scale|rotate|textstr|apply|export)*)>
+<!ATTLIST arc center CDATA #REQUIRED>
+<!ATTLIST arc radius CDATA #REQUIRED>
+<!ATTLIST arc begin CDATA #REQUIRED>
+<!ATTLIST arc end CDATA #REQUIRED>
+<!ELEMENT rect ((arc|rect|paint|fill|stroke|translate|scale|rotate|textstr|apply|export)*)>
+<!ATTLIST rect x CDATA #REQUIRED>
+<!ATTLIST rect y CDATA #REQUIRED>
+<!ATTLIST rect w CDATA #REQUIRED>
+<!ATTLIST rect h CDATA #REQUIRED>
+<!ELEMENT close EMPTY>
+<!ELEMENT gradient (colorstop*)>
+<!ATTLIST gradient id ID #REQUIRED>
+<!ATTLIST gradient type CDATA #REQUIRED>
+<!ATTLIST gradient begin CDATA #REQUIRED>
+<!ATTLIST gradient end CDATA #REQUIRED>
+<!ELEMENT colorstop EMPTY>
+<!ATTLIST colorstop step CDATA #REQUIRED>
+<!ATTLIST colorstop color CDATA #REQUIRED>
+<!ELEMENT import EMPTY>
+<!ATTLIST import id ID #REQUIRED>
+<!ATTLIST import filename CDATA #REQUIRED>
+<!ELEMENT img ((paint|arc|rect|translate|scale|rotate|textstr|apply|export)*)>
+<!ATTLIST img id ID #IMPLIED>
+<!ATTLIST img w CDATA #REQUIRED>
+<!ATTLIST img h CDATA #REQUIRED>
+<!ELEMENT paint EMPTY>
+<!ATTLIST paint image CDATA #IMPLIED>
+<!ATTLIST paint gradient CDATA #IMPLIED>
+<!ATTLIST paint color CDATA #IMPLIED>
+<!ELEMENT fill EMPTY>
+<!ATTLIST fill gradient CDATA #IMPLIED>
+<!ATTLIST fill image CDATA #IMPLIED>
+<!ATTLIST fill color CDATA #IMPLIED>
+<!ELEMENT stroke EMPTY>
+<!ATTLIST stroke width CDATA #REQUIRED>
+<!ATTLIST stroke cap CDATA #REQUIRED>
+<!ATTLIST stroke join CDATA #REQUIRED>
+<!ATTLIST stroke imagem CDATA #IMPLIED>
+<!ATTLIST stroke gradient CDATA #IMPLIED>
+<!ATTLIST stroke color CDATA #IMPLIED>
+<!ELEMENT translate ((arc|rect|paint|fill|stroke|translate|scale|rotate|textstr|apply|export)*)>
+<!ATTLIST translate x CDATA #REQUIRED>
+<!ATTLIST translate y CDATA #REQUIRED>
+<!ELEMENT scale ((arc|rect|paint|fill|stroke|translate|scale|rotate|textstr|apply|export)*)>
+<!ATTLIST scale x CDATA #REQUIRED>
+<!ATTLIST scale y CDATA #REQUIRED>
+<!ELEMENT rotate ((arc|rect|paint|fill|stroke|translate|scale|rotate|textstr|apply|export)*)>
+<!ATTLIST rotate rad CDATA #REQUIRED>
+<!ELEMENT textstr ((arc|rect|paint|fill|stroke|translate|scale|rotate|textstr|apply|export)*)>
+<!ATTLIST textstr value CDATA #REQUIRED>
+<!ATTLIST textstr x CDATA #REQUIRED>
+<!ATTLIST textstr y CDATA #REQUIRED>
+<!ATTLIST textstr font CDATA #REQUIRED>
+<!ATTLIST textstr weight (normal|bold) #IMPLIED>
+<!ATTLIST textstr slant (normal|oblique|italic) #IMPLIED>
+<!ATTLIST textstr size CDATA #REQUIRED>
+<!ELEMENT apply ((arc|rect|paint|fill|stroke|translate|scale|rotate|textstr|apply|export)*)>
+<!ATTLIST apply path CDATA #REQUIRED>
+<!ELEMENT export EMPTY>
+<!ATTLIST export filename CDATA #REQUIRED>

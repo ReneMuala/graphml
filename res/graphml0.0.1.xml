@@ -1,0 +1,161 @@
+<!DOCTYPE graphml SYSTEM "../doctype/graphml0.0.1.dtd">
+<graphml version="0.0.1" engine="cairo">
+    <path id="xyz">
+        <move x="xyz" y="xyz" />
+        <line x="xyz" y="xyz" mode="normal" />
+        <curve begin="xyz" middle="xyz" end="xyz" mode="normal" />
+        <arc center="xyz" radius="xyz" begin="xyz" end="xyz" />
+        <rect x="xyz" y="xyz" w="xyz" h="xyz" />
+        <close />
+    </path>
+    <path id="xyz2">
+        <move x="xyz" y="xyz" />
+    </path>
+    <gradient id="xyz6" type="xyz" begin="xyz" end="xyz">
+        <colorstop step="xyz" color="xyz" />
+        <colorstop step="xyz" color="xyz" />
+        <colorstop step="xyz" color="xyz" />
+    </gradient>
+
+    <import id="xyz3" filename="xyz" />
+
+    <img id="xyz4" w="xyz" h="xyz">
+        <paint image="..." />
+        <paint gradient="..." />
+        <paint color="..." />
+        <arc center="xyz" radius="xyz" begin="xyz" end="xyz">
+            <arc center="xyz" radius="xyz" begin="xyz" end="xyz"></arc>
+            <rect x="xyz" y="xyz" w="xyz" h="xyz"></rect>
+            <paint image="..." />
+            <paint gradient="..." />
+            <paint color="..." />
+            <fill gradient="xyz" />
+            <fill image="xyz" />
+            <fill color="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" imagem="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" gradient="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" color="xyz" />
+            <translate x="xyz" y="xyz"></translate>
+            <scale x="xyz" y="xyz"></scale>
+            <rotate rad="xyz"></rotate>
+            <textstr value="xyz" x="xyz" y="xyz" font="xyz" size="xyz"></textstr>
+            <apply path="xyz"></apply>
+            <export filename="xyz" />
+        </arc>
+        <rect x="xyz" y="xyz" w="xyz" h="xyz">
+            <arc center="xyz" radius="xyz" begin="xyz" end="xyz"></arc>
+            <rect x="xyz" y="xyz" w="xyz" h="xyz"></rect>
+            <paint image="..." />
+            <paint gradient="..." />
+            <paint color="..." />
+            <fill gradient="xyz" />
+            <fill image="xyz" />
+            <fill color="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" imagem="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" gradient="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" color="xyz" />
+            <translate x="xyz" y="xyz"></translate>
+            <scale x="xyz" y="xyz"></scale>
+            <rotate rad="xyz"></rotate>
+            <textstr value="xyz" x="xyz" y="xyz" font="xyz" size="xyz"></textstr>
+            <apply path="xyz"></apply>
+            <export filename="xyz" />
+        </rect>
+        <translate x="xyz" y="xyz">
+            <arc center="xyz" radius="xyz" begin="xyz" end="xyz"></arc>
+            <rect x="xyz" y="xyz" w="xyz" h="xyz"></rect>
+            <paint image="..." />
+            <paint gradient="..." />
+            <paint color="..." />
+            <fill gradient="xyz" />
+            <fill image="xyz" />
+            <fill color="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" imagem="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" gradient="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" color="xyz" />
+            <translate x="xyz" y="xyz"></translate>
+            <scale x="xyz" y="xyz"></scale>
+            <rotate rad="xyz"></rotate>
+            <textstr value="xyz" x="xyz" y="xyz" font="xyz" size="xyz"></textstr>
+            <apply path="xyz"></apply>
+            <export filename="xyz" />
+        </translate>
+        <scale x="xyz" y="xyz">
+            <arc center="xyz" radius="xyz" begin="xyz" end="xyz"></arc>
+            <rect x="xyz" y="xyz" w="xyz" h="xyz"></rect>
+            <paint image="..." />
+            <paint gradient="..." />
+            <paint color="..." />
+            <fill gradient="xyz" />
+            <fill image="xyz" />
+            <fill color="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" imagem="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" gradient="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" color="xyz" />
+            <translate x="xyz" y="xyz"></translate>
+            <scale x="xyz" y="xyz"></scale>
+            <rotate rad="xyz"></rotate>
+            <textstr value="xyz" x="xyz" y="xyz" font="xyz" size="xyz"></textstr>
+            <apply path="xyz"></apply>
+            <export filename="xyz" />
+        </scale>
+        <rotate rad="xyz">
+            <arc center="xyz" radius="xyz" begin="xyz" end="xyz"></arc>
+            <rect x="xyz" y="xyz" w="xyz" h="xyz"></rect>
+            <paint image="..." />
+            <paint gradient="..." />
+            <paint color="..." />
+            <fill gradient="xyz" />
+            <fill image="xyz" />
+            <fill color="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" imagem="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" gradient="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" color="xyz" />
+            <translate x="xyz" y="xyz"></translate>
+            <scale x="xyz" y="xyz"></scale>
+            <rotate rad="xyz"></rotate>
+            <textstr value="xyz" x="xyz" y="xyz" font="xyz" size="xyz"></textstr>
+            <apply path="xyz"></apply>
+            <export filename="xyz" />
+        </rotate>
+        <textstr value="xyz" x="xyz" y="xyz" font="xyz" size="xyz">
+            <arc center="xyz" radius="xyz" begin="xyz" end="xyz"></arc>
+            <rect x="xyz" y="xyz" w="xyz" h="xyz"></rect>
+            <paint image="..." />
+            <paint gradient="..." />
+            <paint color="..." />
+            <fill gradient="xyz" />
+            <fill image="xyz" />
+            <fill color="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" imagem="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" gradient="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" color="xyz" />
+            <translate x="xyz" y="xyz"></translate>
+            <scale x="xyz" y="xyz"></scale>
+            <rotate rad="xyz"></rotate>
+            <textstr value="xyz" x="xyz" y="xyz" font="xyz" size="xyz"></textstr>
+            <apply path="xyz"></apply>
+            <export filename="xyz" />
+        </textstr>
+        <apply path="xyz">
+            <arc center="xyz" radius="xyz" begin="xyz" end="xyz"></arc>
+            <rect x="xyz" y="xyz" w="xyz" h="xyz"></rect>
+            <paint image="..." />
+            <paint gradient="..." />
+            <paint color="..." />
+            <fill gradient="xyz" />
+            <fill image="xyz" />
+            <fill color="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" imagem="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" gradient="xyz" />
+            <stroke width="xyz" cap="xyz" join="xyz" color="xyz" />
+            <translate x="xyz" y="xyz"></translate>
+            <scale x="xyz" y="xyz"></scale>
+            <rotate rad="xyz"></rotate>
+            <textstr value="xyz" x="xyz" y="xyz" font="xyz" size="xyz"></textstr>
+            <apply path="xyz"></apply>
+            <export filename="xyz" />
+        </apply>
+        <export filename="xyz" />
+    </img>
+</graphml>
