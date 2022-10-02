@@ -51,8 +51,8 @@
 <!ATTLIST fill color CDATA #IMPLIED>
 <!ELEMENT stroke EMPTY>
 <!ATTLIST stroke width CDATA #REQUIRED>
-<!ATTLIST stroke cap CDATA #REQUIRED>
-<!ATTLIST stroke join CDATA #REQUIRED>
+<!ATTLIST stroke cap (round|butt|square) #REQUIRED>
+<!ATTLIST stroke join (round|bevel|miter) #REQUIRED>
 <!ATTLIST stroke imagem CDATA #IMPLIED>
 <!ATTLIST stroke gradient CDATA #IMPLIED>
 <!ATTLIST stroke color CDATA #IMPLIED>

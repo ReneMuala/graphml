@@ -406,13 +406,13 @@ bool CairoInterpreter001::strokeSetLineJoin(cairo_t * cr,  cairo_line_join_t & j
 
 void CairoInterpreter001::clearDrawEventStack(){
     while(drawEventStack.size()){
+        drawEventStack.top().second.free();
         drawEventStack.pop();
     }
 }
 
 void CairoInterpreter001::imageMain(cairo_t * cr){
      while(parser.nodeHasLink(Parser::NodeLink::NEXT)){
-        if(!embeddedApplyStackSize) clearDrawEventStack();
         if(!strcasecmp(parser.getXmlNodeName().c_str(), "export")){
             handleImageExport(cr);
         } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "import")){
@@ -437,7 +437,8 @@ void CairoInterpreter001::imageMain(cairo_t * cr){
             handleImageText(cr);
         } else if(!strcasecmp(parser.getXmlNodeName().c_str(), "stroke")){
             handleImageStroke(cr);
-        } parser.getNodeLink(Parser::NodeLink::NEXT);
+        } if(!embeddedApplyStackSize) clearDrawEventStack();
+         parser.getNodeLink(Parser::NodeLink::NEXT);
     }
 }
 
@@ -662,10 +663,10 @@ void CairoInterpreter001::handleImageStroke(cairo_t * cr){
 
     if(statusOk){
         if (!strcmp(mode.c_str(), "normal") || mode.empty()){
-            drawEventStack.push(std::pair<DrawEvent, StrokeProperties>{Stroke, StrokeProperties(width, cap, join)});
+            drawEventStack.push(std::pair<DrawEvent, Optional<StrokeProperties>>{Stroke, Optional<StrokeProperties>(new StrokeProperties(width, cap, join))});
             cairo_stroke(cr);
         } else if (!strcmp(mode.c_str(), "preserve")){
-            drawEventStack.push(std::pair<DrawEvent, StrokeProperties>{StrokePreserve, StrokeProperties(width, cap, join)});
+            drawEventStack.push(std::pair<DrawEvent, Optional<StrokeProperties>>{StrokePreserve, Optional<StrokeProperties>(new StrokeProperties(width, cap, join))});
             cairo_stroke_preserve(cr);
         } else {
             gmlWarn(__FUNCTION__, __FILE__, __LINE__, ("\n--> unknown stroke:mode \"" + mode + "\" expected \"normal\" or \"preserve\". graphml line: " + std::to_string(parser.getXmlNodeLine())).c_str());
@@ -748,7 +749,7 @@ void CairoInterpreter001::handleImageApply(cairo_t * cr){
                     cairo_set_line_join(cr, drawEventStack.top().second.getValue()->join);
                     cairo_set_line_cap(cr, drawEventStack.top().second.getValue()->cap);
                     cairo_set_line_width(cr, drawEventStack.top().second.getValue()->lineWidth);
-                }
+                } 
                 cairo_stroke(cr);
                 break;
             }

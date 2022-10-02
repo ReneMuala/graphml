@@ -1,5 +1,6 @@
 #pragma once
 #include <stdlib.h>
+#include <iostream>
 /**
  * @brief A simple std::optional replacement.
  * 
@@ -7,7 +8,8 @@
  */
 template <typename Any>
 class Optional {
-    Any * value;
+    bool doHaveValue;
+    Any * value = NULL;
 
     public:
 
@@ -17,20 +19,19 @@ class Optional {
      * @param value 
      */
     Optional(Any * value){
+        doHaveValue = true;
         this->value = value;
     }
 
-    /**
-     * @brief Construct a new Optional object
-     * 
-     * @param value 
-     */
-    Optional(Any value){
-        this->value = &value;
+    Optional(){
+        doHaveValue = false;
+        this->value = NULL;
     }
 
-    Optional(){
-        this->value = NULL;
+    void free(){
+        if(hasValue()){
+            delete value;
+        }  doHaveValue = false;
     }
 
     /**
@@ -40,7 +41,7 @@ class Optional {
      * @return false 
      */
     bool hasValue(){
-        return this->value;
+        return doHaveValue;
     }
 
   /**

@@ -9,9 +9,6 @@
                 <fill color="rgb(255,255,255)" />
             </arc>
         </rect>
-        <rect x="10%" y="20%" w="40%" h="40%">
-            <fill color="rgb(2,3,4)" />
-        </rect>
         <export filename="image.png" />
     </img>
 </graphml>
